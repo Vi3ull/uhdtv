@@ -1,0 +1,37 @@
+<section class="relative flex items-center justify-center bg-counter bg-center bg-no-repeat bg-cover bg-fixed min-h-offer h-full before:absolute before:inset-0 before:bg-clr-overlay/60 before:z-20">
+  <div class="container flex flex-wrap items-stretch justify-center my-11 z-30">
+    {%  for item in data.counters %}
+    <div class="basis-1/2 p-4">
+      <div class="flex flex-col items-center justify-center h-full flex-grow text-center bg-white rounded-md border-2 border-dashed border-clr-cta p-4">
+        <div class="prose">
+          {{ item.description | raw }}
+        </div>
+        <div 
+          class="flex items-center justify-center mt-6" 
+          x-data="timer(new Date().setDate(new Date({{ item.date | date('Y, m, d') }}).getDate()))"
+        >
+          <div class="flex flex-col border-r border-clr-cta">
+            <span class="font-nunito font-semibold text-clr-text text-4xl sm:text-6xl mx-4" x-text="time().days"></span>
+            <span class="font-nunito font-light text-sm text-clr-text">Дней</span>
+          </div>
+          <div class="flex flex-col border-r border-clr-cta">
+            <span class="font-nunito font-semibold text-clr-text text-4xl sm:text-6xl mx-4" x-text="time().hours"></span>
+            <span class="font-nunito font-light text-sm text-clr-text">Часов</span>
+          </div>
+          <div class="flex flex-col border-r border-clr-cta">
+            <span class="font-nunito font-semibold text-clr-text text-4xl sm:text-6xl mx-4" x-text="time().minutes"></span>
+            <span class="font-nunito font-light text-sm text-clr-text">Минут</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-nunito font-semibold text-clr-text text-4xl sm:text-6xl mx-4" x-text="time().seconds"></span>
+            <span class="font-nunito font-light text-sm text-clr-text">Секунд</span>
+          </div>
+        </div>
+        <div class="font-nunito font-light text-xs text-clr-text mt-4">
+          {{ item.caption | raw }}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>

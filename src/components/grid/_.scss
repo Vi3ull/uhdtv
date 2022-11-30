@@ -1,0 +1,19 @@
+.grid {
+  $numColumns: 12;
+  $gutterWidth: rem(15);
+
+  --columnsCount: #{$numColumns};
+  --horizontalGap: #{$gutterWidth};
+  --verticalGap: #{$gutterWidth};
+
+  display: grid;
+  grid-template-columns: repeat(var( --columnsCount ), 1fr);
+  row-gap: var( --horizontalGap );
+  column-gap: var( --verticalGap );
+
+  @for $i from 1 to $numColumns{
+    &--cols--#{$i}{
+      --columnsCount: #{$i};
+    }
+  }
+}

@@ -1,0 +1,7 @@
+<{{ data.tag_name | default('a') }}
+  class="button {{ data.className }}"
+  {{ data.tag_name == 'a' ? 'href="%s"' | format(data.url) : 'href="#"' }}
+  type="{{ data.tag_name == 'a' ? 'button' : data.type | default('button') }}"
+>
+  {{ data.text | raw }}
+</{{ data.tag_name | default('a') }}>

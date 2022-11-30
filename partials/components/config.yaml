@@ -1,0 +1,71 @@
+editor:
+  name: Редактор
+  description: Редактор
+  icon: icon-list-alt
+  fields:
+    content:
+      type: nestedform
+      form: ~/themes/uhdtv/partials/components/editor/_.yaml
+
+grid:
+  name: Колонки
+  description: Колонки
+  icon: icon-list-alt
+  fields:
+    content:
+      type: nestedform
+      form: ~/themes/uhdtv/partials/components/grid/_.yaml
+
+banner:
+  name: Баннер
+  description: Баннер
+  icon: icon-list-alt
+  fields:
+    content:
+      type: nestedform
+      form: ~/themes/uhdtv/partials/components/banner/_.yaml
+
+categories:
+  name: Категории
+  description: Категории
+  icon: icon-list-alt
+  fields:
+    content:
+      type: nestedform
+      form: ~/themes/uhdtv/partials/components/categories/_.yaml
+
+card:
+  name: Карточка
+  description: Карточка
+  icon: icon-list-alt
+  fields:
+    content:
+      type: nestedform
+      form: ~/themes/uhdtv/partials/components/card/_.yaml
+
+timer:
+  name: Таймер
+  description: Таймер
+  icon: icon-list-alt
+  fields:
+    content:
+      type: nestedform
+      form: ~/themes/uhdtv/partials/components/timer/_.yaml
+
+contacts:
+  name: Контакты
+  description: Контакты
+  icon: icon-list-alt
+  fields:
+    content:
+      type: nestedform
+      form: ~/themes/uhdtv/partials/components/contacts/_.yaml
+
+modal:
+  name: Модальное окно
+  description: Модальное окно
+  icon: icon-list-alt
+  fields:
+    content:
+      type: nestedform
+      form: ~/themes/uhdtv/partials/components/modal/_.yaml

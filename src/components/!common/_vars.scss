@@ -1,0 +1,36 @@
+:root {
+  --padding-x: 1rem;
+  --clrHeader: 255 255 255;
+  --clrBody: 255 255 255;
+  --clrFooter: 63 63 70;
+  --clrHeading: 15 117 246;
+  --clrText: 75 85 99;
+  --clrLink: 54 53 48;
+  --clrCta: 15 117 246;
+  --clrSelection: 15 117 246;
+  --clrHover: 15 117 246;
+  --clrOverlay: 4 8 20;
+}
+
+$screens: (
+  xs: 360px,
+  xxs: 480px, 
+  sm: 540px, 
+  md: 768px, 
+  lg: 992px, 
+  xl: 1280px,
+  2xl: 1536px,
+) !default; 
+
+$gaps: ( 
+  sm: 24px, 
+  md: 40px, 
+  lg: 72px, 
+) !default; 
+
+$z-layers: (
+);
+
+$fonts : (
+  sans: ('Inter', sans-serif),
+);

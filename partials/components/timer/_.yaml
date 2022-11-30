@@ -1,0 +1,21 @@
+fields:
+  counters: 
+    type: repeater
+    prompt: Добавить таймер
+    style: collapsed
+    form: 
+      fields:
+        description:
+          label: Описание
+          type: richeditor
+          size: large
+        date:
+          label: Дата окончания
+          type: datepicker
+          mode: date
+          format: Y-m-d
+        caption:
+          label: Подпись
+          type: richeditor
+          size: large
+        

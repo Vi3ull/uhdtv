@@ -1,0 +1,13 @@
+<section class="{{ data.disable_container ? '' : 'container' }}">
+  <div 
+    class="
+      grid 
+      grid--cols--{{ data.col_count }}
+      v-gap--{{ data.v_gap }}
+    "
+  >
+    {% for block in data.blocks %}
+      {% partial 'components/' ~ block._group ~ '/_' data=block.content %}
+    {% endfor %}
+  </div>
+</section>

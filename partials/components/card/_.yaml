@@ -1,0 +1,64 @@
+fields:
+  card_type: 
+    label: Тип
+    type: dropdown
+    options:
+        "flex-col": "Вертикальная"
+        "flex-row": "Горизонтальная"
+    span: row
+    cssClass: col-md-12
+
+  add_button:
+    label: Добавить кнопку
+    type: switch
+    span: row
+    cssClass: col-md-3
+
+  add_image:
+    label: Добавить изображение
+    type: switch
+    span: row
+    cssClass: col-md-3
+
+  add_description:
+    label: Добавить описание
+    type: switch
+    span: row
+    cssClass: col-md-3
+
+  _ruler1:
+    type: ruler
+
+  button:
+    label: Кнопка
+    type: nestedform
+    form: ~/themes/uhdtv/partials/components/button/_.yaml
+    span: row
+    cssClass: col-md-12
+    trigger:
+      action: show
+      field: add_button
+      condition: checked
+
+  _ruler2:
+    type: ruler
+
+  description:
+    label: Описание
+    type: richeditor
+    span: row
+    cssClass: col-md-12
+    trigger:
+      action: show
+      field: add_description
+      condition: checked
+
+  image:
+    label: Изображение
+    type: mediafinder
+    span: row
+    cssClass: col-md-12
+    trigger:
+      action: show
+      field: add_image
+      condition: checked

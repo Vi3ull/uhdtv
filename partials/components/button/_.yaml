@@ -1,0 +1,26 @@
+fields:
+  tag_name:
+    label: Тег
+    type: dropdown
+    options:
+        a: "a"
+        button: "button"
+    span: row
+    cssClass: col-md-3
+  type: 
+    label: Тип
+    type: dropdown
+    options:
+        button: "button"
+        submit: "submit"
+    span: row
+    cssClass: col-md-3
+  text:
+    label: Текст
+    span: row
+    cssClass: col-md-12
+
+  url:
+    label: Ссылка
+    span: row
+    cssClass: col-md-12

@@ -1,0 +1,7 @@
+.v-gap {
+  @each $abbr, $size in $gaps {
+    &--#{$abbr} {
+      margin-bottom: rem($size);
+    }
+  }
+}

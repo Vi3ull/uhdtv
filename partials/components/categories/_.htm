@@ -1,0 +1,29 @@
+<div class="container -mt-16">
+  <ul class="grid md:grid-cols-3 lg:grid-cols-6">
+    {% for item in data.items %}
+    <li class="group relative bg-white shadow-sm shadow-gray-400 hover:bg-blue-600 transition-colors duration-150 ease-in">
+      <article class="flex flex-col items-center p-5">
+        <div class="text-xl text-black text-center font-sans font-normal leading-normal mb-2 group-hover:text-white transition-colors duration-150 ease-in">
+          {{ item.title | raw }}
+        </div>
+        {% if item.image %}
+        <img
+          class="w-12 h-12 object-cover my-4" 
+          src="{{ item.image | media }}" 
+          alt="Фото: {{ item.title | raw }}"
+        >
+        {% endif %}
+        <div class="text-base text-black/70 text-center font-sans font-normal leading-relaxed mb-4 group-hover:text-white transition-colors duration-150 ease-in">
+          {{ item.description | raw }}
+        </div>
+        <a 
+          class="before:absolute before:inset-0 before:z-10"
+          href="{{ item.url ? item.url : '#' }}" 
+          title="{{ item.title }}"
+        >
+        </a>
+      </article>
+    </li>
+    {% endfor %}
+  </ul>
+</div>

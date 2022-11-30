@@ -1,0 +1,62 @@
+.button {
+  --btnPaddingTop: #{rem(6)};
+  --btnPaddingBottom: #{rem(6)};
+  --btnPaddingLeft: #{rem(12)};
+  --btnPaddingRight: #{rem(12)};
+  --btnMinWidth: #{rem(24)};
+  --btnMinHeight: #{rem(24)};
+  --btnBorderWidth: transparent;
+  --btnBorderStyle: transparent;
+  --btnBorderColor: transparent;
+  --btnBgColor: transparent;
+  --btnColor: var( --manatee );
+  --btnFontFamily: inherit;
+  --btnFontSize: #{rem(16)};
+  --btnFontWeight: 500;
+  --btnTextDecoration: none;
+  --btnBorderColorHover: transparent;
+  --btnBgColorHover: transparent;
+  --btnColorHover: var( --cornflower-pale );
+  --btnBorderColorActive: transparent;
+  --btnBgColorActive: transparent;
+  --btnColorActive: var( --cornflower-pale );
+  // --btnBorderColorDisabled: ;
+  // --btnBgColorDisabled: ;
+  // --btnColorDisabled: ;
+
+  display: inline-block;
+  text-align: center;
+  background-color: var( --btnBgColor, transparent );
+  border-width: var( --btnBorderWidth, rem(1) );
+  border-style: var( --btnBorderStyle, solid );
+  border-color: var( --btnBorderColor, transparent );
+  border-radius: var( --btnBorderRadius );
+  color: var(--btnColor);
+  font-family: var( --btnFontFamily, inherit );
+  font-size: var( --btnFontSize, rem(16) );
+  font-weight: var( --btnFontWeight, 500 );
+  text-decoration: var( --btnTextDecoration, none );
+  min-width: var( --btnMinWidth, auto );
+  min-height: var( --btnMinHeight, auto );
+  padding-top: var( --btnPaddingTop, 0 );
+  padding-bottom: var( --btnPaddingBottom, 0 );
+  padding-left: var( --btnPaddingLeft, 0 );
+  padding-right: var( --btnPaddingRight, 0 );
+  transition: border-color .3s linear,color .3s linear,background-color .3s linear;
+
+  &:hover, &:focus, &:focus-visible {
+    background-color: var(--btnBgColorHover);
+    border-color: var(--btnBorderColorHover);
+    color: var(--btnColorHover);
+  }
+
+  &:active {
+    background-color: var(--btnBgColorActive);
+    border-color: var(--btnBorderColorActive);
+    color: var(--btnColorActive);
+  }
+
+  & + & {
+    margin-left: rem(24);
+  }
+}

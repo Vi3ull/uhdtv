@@ -1,0 +1,39 @@
+@import './!common/_';
+// @import './menu-toggle/_';
+// @import './dropdown/_';
+@import './button/_';
+@import './grid/_';
+@import './v-gap/_';
+@import './carousel/_';
+@import './scrollbar/_';
+
+@tailwind base;
+
+@layer base {
+  // input[type='text'],
+  // input[type='password'],
+  // input[type='email'],
+  // input[type='number'],
+  // input[type='url'],
+  // input[type='date'],
+  // input[type='datetime-local'],
+  // input[type='month'],
+  // input[type='week'],
+  // input[type='time'],
+  // input[type='search'],
+  // input[type='tel'],
+  // input[type='checkbox'],
+  // input[type='radio'],
+  // select,
+  // select[multiple],
+  // textarea {
+  //   @apply placeholder-shown:autofill:shadow-autofill #{!important};
+  // }
+}
+
+@tailwind components;
+
+@layer components {
+}
+
+@tailwind utilities;

@@ -1,0 +1,33 @@
+<div class="relative flex justify-center {{ data.card_type }}">
+  <div class="rounded-lg shadow-lg bg-white max-w-sm">
+    {% if data.add_image %}
+    <picture>
+      <img class="rounded-t-lg" src="{{ data.image | media }}" alt=""/>
+    </picture>
+    {% endif %}
+    <div class="p-6">
+      {% if data.add_description %}
+      <div 
+        class="
+          prose 
+          max-w-none 
+          prose-headings:text-xl 
+          prose-headings:font-medium 
+          prose-headings:mb-2
+          prose-p:text-base 
+          prose-p:mb-4
+        "
+      >
+        {{ data.description }}
+      </div>
+      {% endif %}
+      {% if data.add_button %}
+        {% 
+          partial "components/button/_"  
+          data=data.button
+        %}
+        {#<a href="{{ data.button.url }}" class="button before:absolute before:inset-0 before:z-10">{{ data.button.text }}</a>#}
+      {% endif %}
+    </div>
+  </div>
+</div>

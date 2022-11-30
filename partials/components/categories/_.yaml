@@ -1,0 +1,25 @@
+fields:
+  items: 
+    type: repeater
+    prompt: Добавить элемент
+    style: collapsed
+    form: 
+      fields:
+        title:
+          label: Заголовок
+          type: richeditor
+          size: small
+        image: 
+          label: Изображение
+          type: mediafinder
+          required: true
+          span: full
+          mode: image
+        description:
+          label: Описание
+          type: richeditor
+          size: large
+        url:
+          label: Ссылка
+          type: text
+        
