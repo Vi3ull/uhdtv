@@ -1,0 +1,44 @@
+fields:
+  style_settings:
+    label: Настройки компонента "Колонки"
+    type: nestedform
+    showPanel: false
+    form:
+      fields:
+        container_type:   
+          type: nestedform
+          showPanel: false
+          form: ~/themes/uhdtv/partials/components/shared/container.yaml
+          span: row
+          cssClass: col-md-2 px-0
+
+        align_type: 
+          type: nestedform
+          showPanel: false
+          form: ~/themes/uhdtv/partials/components/shared/align.yaml
+          span: row
+          cssClass: col-md-2 px-0
+
+        gap_type: 
+          type: nestedform
+          showPanel: false
+          form: ~/themes/uhdtv/partials/components/shared/gap.yaml
+          span: row
+          cssClass: col-md-4 px-0
+
+        v_gap_type: 
+          type: nestedform
+          showPanel: false
+          form: ~/themes/uhdtv/partials/components/shared/v-gap.yaml
+          span: row
+          cssClass: col-md-4 px-0
+ 
+  _ruler1:
+    type: ruler
+
+  row:
+    label: Колонки
+    prompt: Добавить колонку
+    type: repeater
+    displayMode: builder
+    form: ~/themes/uhdtv/partials/components/row/col/_.yaml

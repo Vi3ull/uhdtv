@@ -1,0 +1,29 @@
+title = "Фотогалерея практических занятий школы телевидения"
+url = "/galleries-tv"
+layout = "default"
+meta_title = "Фотогалерея практических занятий школы кино и телевидения"
+meta_description = ""
+==
+<?php
+
+function onStart() {
+        $this[ 'blogs' ] = \Maxon\Uhd\Models\Blog::IsPublished()->
+        whereHas('specs', function ($q)
+        {$q->whereIn( 'id', [1,2,4,5,6,7,8] );})
+        //->whereHas('images')
+        ->where('galsetting', '=', '1')
+        ->orderBy('published_at', 'desc')->paginate(20);	
+		$this->page->meta_keywords	= "";
+		$this->page->name	= "Фотогалерея практических занятий школы телевидения";        	
+    }
+?>
+==
+
+<div class="video-list">
+    {% for blog in blogs %}
+        {% partial 'list/galblogs' item=blog catalog='blogs' %}
+    {% endfor %}
+
+</div>
+<div class="clear"></div>
+{% partial 'pagination' items=blogs %}

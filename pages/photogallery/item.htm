@@ -1,0 +1,47 @@
+title = "Фотогалереи"
+url = "/photogalleries/:slug"
+layout = "default"
+
+==
+<?php
+function onStart() {
+		$slug = str_replace('.html', '', $this->param('slug'));		
+		$gallery	= \Maxon\Uhd\Models\Gallery::where( 'slug', $slug )->with('specs')->first();
+
+		if ( !$gallery ) {
+			$this->setStatusCode( 404 );
+			return $this->controller->run( '404' );
+		}
+
+		$this->page->meta_title	= $gallery->meta_title;
+		$this->page->meta_description	= $gallery->meta_description;
+		$this->page->meta_keywords	= $gallery->meta_keywords;
+		$this->page->images	= $gallery->images;
+		$this[ 'gallery' ]		= $gallery;
+		
+	}
+?>
+==
+    
+<div class="navi">
+<a href="/">Главная страница</a> &nbsp;&raquo;&nbsp; 
+<a href="/photogalleries/">Фотогалереи курса Мастерство фотохудожника</a>
+</div>
+
+<h1>{{ gallery.name }}</h1>
+
+<br>
+{% if gallery.images == "[]" %}
+{% else %}
+{% partial 'galleries' gallery=gallery type="tiles" %}<br />
+{% endif %}	
+
+<div class="clear"></div>
+<hr>
+<h2>Фотогалерея относится к событию:</h2>
+
+<div class="prof bg01">
+{% for spec in gallery.specs %}
+     {% partial 'list/specs' spec=spec %}
+{% endfor %}
+</div>

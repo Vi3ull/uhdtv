@@ -1,0 +1,38 @@
+<div class="pagination">
+  {% if results.hasPages %}
+  <ul class="pagination">
+      <li class="pagination__list-item">
+        {% if results.currentPage > 1 %}
+        <a
+          class="pagination__link {{ results.currentPage > 1 ? '' : 'pagination__link--disabled'}}"
+          href="{{ results.previousPageUrl ? '' : results.previousPageUrl }}" tabindex="-1" aria-disabled="true"
+        >
+          Previous
+        </a>
+        {% endif %}
+      </li>
+
+      {% for page in range(1, results.lastPage) %}
+        <li class="pagination__list-item">
+          <a
+            class="pagination__link {{ results.currentPage == page ? 'pagination__link--active' : ''}}"
+            href="{{ results.url(page) }}"
+          >
+          {{ page }}
+          </a>
+        </li>
+      {% endfor %}
+
+      <li class="pagination__list-item">
+        {% if results.hasMorePages %}
+        <a
+          class="pagination__link {{ results.hasMorePages ? '' : 'pagination__link--disabled'}}"
+          href="{{ results.nextPageUrl }}"
+        >
+          Next
+        </a>
+        {% endif %}
+      </li>
+  </ul>
+  {% endif %}
+</div>

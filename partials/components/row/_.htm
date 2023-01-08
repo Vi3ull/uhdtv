@@ -1,0 +1,9 @@
+{% set componentId = random() %}
+
+<div class="row gap v-gap{% for style in data.style_settings %} {{ style | join(' ') }}{% endfor %}">
+  {% for col in data.row %}
+    {% for component in col.component %}
+      {% partial "components/row/col/_" col=col component=component componentId=componentId %}
+    {% endfor %}
+  {% endfor %}
+</div>

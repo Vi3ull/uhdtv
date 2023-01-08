@@ -1,0 +1,15 @@
+.page {
+  --pageBgClr: rgb(var(--clrPage) / 1);
+
+  font-family: map-get($fonts, sans);
+  display: flex;
+  flex-direction: column;
+  background-color: var(--pageBgClr, var(--light));
+  min-height: 100vh;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+}

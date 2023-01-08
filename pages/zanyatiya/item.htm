@@ -1,0 +1,41 @@
+title = "Специальность"
+url = "/zanyatiya/:slug"
+layout = "default"
+==
+<?php
+function onStart() {		
+		$slug = str_replace('.html', '', $this->param('slug'));
+		$spec = \Maxon\Uhd\Models\Spec::where( 'slug', $slug )->IsPublished()->with([
+            'blogs' =>function($q){
+				$q->isPublished()->take(5);
+			}])->first();
+
+        if ( !$spec ) {
+			$this->setStatusCode( 404 );
+			return $this->controller->run( '404' );
+		}
+    
+		$this[ 'spec' ]			= $spec;
+
+        $this[ 'news' ]	= \Maxon\Uhd\Models\Blog::isPublished()->orderBy('id', 'desc')->take(5)->get();
+        
+        $this->page->name	= $spec->name;
+        $this->page->meta_title	= $spec->meta_title;			
+        $this->page->meta_description	= $spec->meta_description;
+        $this->page->meta_keywords	= $spec->meta_keywords;
+        $this->page->menu   = '1';
+
+	}
+?>
+==
+<div class="navi">
+<a href="/">Главная страница</a> &nbsp;»&nbsp;<a href="{{ 'zanyatiya/list' | page() }}/">Расписание занятий</a>
+</div>
+
+<iframe src="{% for time in spec.kurs_time %}{{time.raspisanie}}{% endfor %}" width="100%" height="950" frameborder="0" style="border: 1px solid #eee"></iframe>
+
+<br>
+<div class="prof bg01">
+{% partial 'list/specs' spec=spec %}
+</div>
+

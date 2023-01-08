@@ -1,0 +1,50 @@
+.banner {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--roundedSize);
+
+  // .banner__picture
+
+  &__picture {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--roundedSize);
+  }
+
+  // .banner__img
+
+  &__img {
+    object-fit: cover;
+    box-shadow: var(--boxShadow);
+    border-radius: var(--roundedSize);
+  }
+
+  // .banner__inner
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    align-self: center;
+    padding-top: rem(75);
+    padding-bottom: rem(75);
+    padding-left: rem(24);
+    padding-right: rem(24);
+  }
+
+  // .banner__content
+
+  &__content {
+    max-width: 65ch;
+  }
+}

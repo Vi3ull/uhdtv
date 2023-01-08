@@ -1,0 +1,87 @@
+title = "Преподаватель"
+url = "/prepodavateli/:slug"
+layout = "default"
+
+[viewBag]
+title_up = "Преподаватели учебного центра UHD"
+h1 = "1"
+==
+<?php
+function onStart() {
+		$slug = str_replace('.html', '', $this->param('slug'));
+		$lector	= \Maxon\Uhd\Models\Lector::where( 'slug', $slug )->with([
+			'disciplines' =>function($q){
+			$q->isPublished()->orderBy('name', 'asc');
+			},
+			'specs' =>function($q){
+			$q->isPublished()->orderBy('name', 'asc');
+			},
+			'medias' =>function($q){
+			$q->isPublished()->orderBy('name', 'asc');
+			}
+		])->first();
+		$discipline	= \Maxon\Uhd\Models\Discipline::with('specs')->first();
+
+		if ( !$lector ) {
+			$this->setStatusCode( 404 );
+			return $this->controller->run( '404' );
+		}
+
+		$this->page->meta_title	= $lector->meta_title;
+		$this->page->meta_description	= $lector->meta_description;
+		$this->page->meta_keywords	= $lector->meta_keywords;
+		$this->page->name	= $lector->name;
+		$this->page->image	= $lector->image;
+		$this[ 'lector' ]		= $lector;
+		$this[ 'discipline' ]	= $discipline;
+
+	}
+?>
+==
+<div class="navi">
+<a href="/">Главная страница</a> &nbsp;»&nbsp;<a href="{{ 'lectors/list' | page() }}/">{{viewBag.title_up }}</a>
+</div>
+
+<div class="line-doc" style="text-align: center;"><h1>{{ lector.name }}</h1></div>
+<br>
+
+<div class="prepod" align="center">
+<img src="{{ lector.image.getThumb( 400,400, 'crop' ) }}" title="{{ lector.name }}" alt="{{ lector.name }}" width="400px">
+</div>
+<br>
+
+<div class="nach black">{{ lector.content|raw }}</div>
+<br>
+
+<div class="line-spec">Преподает {% if lector.disciplines.count > "1" %}дисциплины{% else %}дисциплину{% endif %}:</div>
+<br>
+<div class="prof bg02">
+{% for lector in lector.disciplines %}
+     {% partial 'list/items' item=lector catalog="disciplines" listspec="Y" %}
+{% endfor %}
+</div>
+
+{% if lector.specs == "[]" %}
+{% else %}
+<div class="line-spec">{% if lector.specs.count > 1 %}Мастер курсов{% else %}Мастер курса{% endif %}</div>
+<br>
+<div class="prof bg01">
+{% for spec in lector.specs %}
+     {% partial 'list/specs' spec=spec %}
+{% endfor %}
+</div>
+{% endif %}
+
+
+{% for videoprepod in lector.medias %}{% if loop.index == 1 %}
+<div class="line-doc"><a href="{{ 'media/item' | page({ slug : videoprepod.mediacategory.parent.slug }) }}/">{{videoprepod.mediacategory.parent.name}}</a></div>
+{% endif %}{% endfor %}
+<br>
+<div class="video-list">
+    {% for videoprepod in lector.medias %}
+		{% if videoprepod.mediacategory.parent.id == "3" %}
+        {% partial 'list/media' item=videoprepod mediacategory=videoprepod.mediacategory catalog="media" %}
+		{% endif %}
+    {% endfor %}
+</div>
+<div class="clear"></div>

@@ -5,16 +5,28 @@ editor:
   fields:
     content:
       type: nestedform
+      showPanel: false
       form: ~/themes/uhdtv/partials/components/editor/_.yaml
 
-grid:
+row:
   name: Колонки
   description: Колонки
   icon: icon-list-alt
   fields:
     content:
       type: nestedform
-      form: ~/themes/uhdtv/partials/components/grid/_.yaml
+      showPanel: false
+      form: ~/themes/uhdtv/partials/components/row/_.yaml
+
+carousel:
+  name: Карусель
+  description: Карусель
+  icon: icon-list-alt
+  fields:
+    content:
+      type: nestedform
+      showPanel: false
+      form: ~/themes/uhdtv/partials/components/carousel/_.yaml
 
 banner:
   name: Баннер
@@ -23,16 +35,8 @@ banner:
   fields:
     content:
       type: nestedform
+      showPanel: false
       form: ~/themes/uhdtv/partials/components/banner/_.yaml
-
-categories:
-  name: Категории
-  description: Категории
-  icon: icon-list-alt
-  fields:
-    content:
-      type: nestedform
-      form: ~/themes/uhdtv/partials/components/categories/_.yaml
 
 card:
   name: Карточка
@@ -41,7 +45,48 @@ card:
   fields:
     content:
       type: nestedform
+      showPanel: false
       form: ~/themes/uhdtv/partials/components/card/_.yaml
+
+post:
+  name: Пост
+  description: Пост
+  icon: icon-list-alt
+  fields:
+    content:
+      type: nestedform
+      showPanel: false
+      form: ~/themes/uhdtv/partials/components/post/_.yaml
+
+video:
+  name: Видео
+  description: Видео
+  icon: icon-list-alt
+  fields:
+    content:
+      type: nestedform
+      showPanel: false
+      form: ~/themes/uhdtv/partials/components/video/_.yaml
+
+gallery:
+  name: Галлерея
+  description: Галлерея
+  icon: icon-list-alt
+  fields:
+    content:
+      type: nestedform
+      showPanel: false
+      form: ~/themes/uhdtv/partials/components/gallery/_.yaml
+
+figure:
+  name: Изображение c подписью
+  description: Изображение c подписью
+  icon: icon-list-alt
+  fields:
+    content:
+      type: nestedform
+      showPanel: false
+      form: ~/themes/uhdtv/partials/components/figure/_.yaml
 
 timer:
   name: Таймер
@@ -50,16 +95,8 @@ timer:
   fields:
     content:
       type: nestedform
+      showPanel: false
       form: ~/themes/uhdtv/partials/components/timer/_.yaml
-
-contacts:
-  name: Контакты
-  description: Контакты
-  icon: icon-list-alt
-  fields:
-    content:
-      type: nestedform
-      form: ~/themes/uhdtv/partials/components/contacts/_.yaml
 
 modal:
   name: Модальное окно
@@ -68,4 +105,5 @@ modal:
   fields:
     content:
       type: nestedform
+      showPanel: false
       form: ~/themes/uhdtv/partials/components/modal/_.yaml

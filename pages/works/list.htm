@@ -1,0 +1,21 @@
+title = "Список специальностей"
+url = "/works/"
+layout = "default"
+meta_title = "Работы слушателей"
+[viewBag]
+title_up = "Работы слушателей"
+==
+<?php
+function onStart() {
+		$this[ 'workcategories' ]	= \Maxon\Uhd\Models\Workcategory::get();
+	}
+?>
+==
+<div class="prof bg01">
+{% for work in workcategories %}     
+	 {% partial 'list/category' item=work catalog='works' %}
+{% endfor %}
+</div>
+
+<div class="clear"></div>
+

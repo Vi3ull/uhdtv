@@ -3,5 +3,8 @@
   {{ data.tag_name == 'a' ? 'href="%s"' | format(data.url) : 'href="#"' }}
   type="{{ data.tag_name == 'a' ? 'button' : data.type | default('button') }}"
 >
+  {% if data.has_icon %}
+    {% partial 'common/icon' class="button__icon" icon=data.icon %}
+  {% endif %}
   {{ data.text | raw }}
 </{{ data.tag_name | default('a') }}>

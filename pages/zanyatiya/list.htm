@@ -1,0 +1,59 @@
+title = "Расписание занятий"
+url = "/zanyatiya/"
+layout = "default"
+
+[viewBag]
+title_up = "Расписание занятий"
+==
+<?php
+function onStart() {
+		$this[ 'specs' ]	= \Maxon\Uhd\Models\Spec::IsPublished()->orderBy('name', 'ASC')->get();
+
+        $this[ 'news' ]	= \Maxon\Uhd\Models\Blog::isPublished()->orderBy('id', 'desc')->take(5)->get();
+
+        $this->page->meta_title	= "Расписание занятий";
+        $this->page->news   = '1';
+	}
+?>
+==
+<div class="prof bg01">
+<div class="line-doc">Расписание основных курсов. Вечер с 19:00-22:00</div>
+<br>
+<table class="kratko" cellspacing="0">
+{% for spec2 in specs %}
+{% if spec2.category.id =="1" %}
+
+{% for time in spec2.kurs_time %}
+    {% if time.raspisanie %}
+    {% partial 'list/specsmall' spec2=spec2 %}        
+    {% endif %}
+{% endfor %}
+
+{% endif %}
+{% endfor %}
+</table>
+</div>
+
+<div class="prof bg01">
+<div class="line-doc">Расписание интенсивных курсов. День с 15:00-18:00</div>
+<br>
+<table class="kratko" cellspacing="0">
+{% for spec2 in specs %}
+{% if spec2.category.id =="2" %}
+
+{% for time in spec2.kurs_time %}
+    {% if time.raspisanie %}
+    {% partial 'list/specsmall' spec2=spec2 %}        
+    {% endif %}
+{% endfor %}
+
+{% endif %}
+{% endfor %}
+</table>
+</div>
+
+
+<div class="clear"></div>
+
+</div>
+

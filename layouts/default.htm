@@ -1,10 +1,10 @@
 description = "Шаблон по умолчанию"
 
-[staticMenu generalMenu]
-code = "general-menu"
+[staticMenu mainMenu]
+code = "main-menu"
 
 [staticMenu footerMenu]
-code = "general-menu"
+code = "footer-menu"
 
 [staticBreadcrumbs]
 
@@ -12,12 +12,26 @@ code = "general-menu"
 useContent = 0
 default = 0
 ==
+<?php
+function onStart() {
+  $theme_colors = array();
+  $colors = $this->theme->colors;
+  if (isset($this->theme->colors)) {
+    foreach ($colors as $key => $color) {
+        list($r, $g, $b) = sscanf($color, "#%02x%02x%02x");
+        $theme_colors += [ $key => "$r $g $b"];
+    }
+    $this['theme_colors'] = $theme_colors;
+  }
+}
+?>
+==
 {variable 
-  name="hasBreadcrumbs"
+  name="onHideBreadcrumbs"
   tab="Контент страницы"
-  label="Показать хлебные крошки"
+  label="Скрыть хлебные крошки"
   type="switch"
-  default=1
+  default=0
   span="full"
 }
 {/variable}
@@ -26,7 +40,8 @@ default = 0
   tab="Контент страницы"
   label="Контент страницы"
   type="repeater"
-  prompt="Добавить блок"
+  displayMode="builder"
+  prompt="Добавить компонент"
   style="collapsed"
   span="full"
   groups="~/themes/uhdtv/partials/components/config.yaml"
@@ -40,25 +55,21 @@ default = 0
   {% partial 'common/head' %}
 </head>
   <body 
-    class="flex flex-col min-h-screen bg-clr-body selection:bg-clr-selection selection:text-white"
+    class="page"
   >
     {{ this.theme.include_body_begin }}
     {% partial 'common/header' %}
 
-    {% if hasBreadcrumbs %}
-      {% partial 'common/breadcrumbs' %}
-    {% endif %}
-    
-    <div 
-      class="flex-grow"
-    >
-      <main>
-        {% page %}
-        {% for block in pageContent %}
-          {% partial 'components/' ~ block._group ~ '/_' data=block.content %}
-        {% endfor %}
-      </main>    
-    </div>
+  {% if staticPage.page.viewBag.onHideBreadcrumbs != '1' and onHideBreadcrumbs != '1' %}
+    {% partial 'common/breadcrumbs' %}
+  {% endif %}
+
+  <main class="page__content">
+    {% page %}
+    {% for block in pageContent %}
+      {% partial 'components/' ~ block._group ~ '/_' data=block.content %}
+    {% endfor %}
+  </main>    
     
     {% partial 'common/footer' %}
     

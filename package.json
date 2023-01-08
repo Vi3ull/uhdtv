@@ -10,8 +10,8 @@
   "author": "Vi3ull",
   "license": "ISC",
   "dependencies": {
-    "@splidejs/splide": "^4.1.4",
     "alpinejs": "^3.10.5",
+    "swiper": "^8.4.5",
     "vite": "^3.2.4"
   },
   "devDependencies": {

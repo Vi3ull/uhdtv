@@ -1,0 +1,16 @@
+<a 
+    href="{{ item.url ? item.url : '#' }}"
+    class="navbar__link main-menu__link {{ item.isActive ? 'navbar__link--active' : '' }} {{ item.url ? '' : 'navbar__link--disabled' }} {{ item.items ? 'dropdown__toggle' : '' }}"
+    {% if item.items %}
+        {#
+        type="button"
+        id="dropdownMenuButton{{ loop.index }}"
+        #}
+        x-bind="button"
+    {% endif %}
+>
+    {{ item.title }}
+    {# if item.items %} 
+        {% partial 'common/icon' class="w-4 h-4 inline-block stroke-current fill-transparent rotate-180" icon="chevron" %}
+    {% endif #}
+</a>

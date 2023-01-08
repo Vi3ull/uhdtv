@@ -1,7 +1,49 @@
-<div class="carousel js-carousel scrollbar">
-  <ul class="carousel__wrapper js-carousel-wrapper">
-    {% for item in items %}
-      {{ body }}
-    {% endfor %}
+{% set componentId = random() %}
+
+<div class="carousel js-carousel v-gap {{ data.slides_count }} {{ data.carousel_type }} {{ data.has_thumbs ? 'carousel--has--thumbs' : '' }} {% for style in data.style_settings %} {{ style | join(' ') }}{% endfor %}">
+  <ul class="carousel__wrapper scrollbar js-carousel-wrapper">
+    {% if body %}
+      {{ body | raw }}
+    {% else %}
+      {% for slide in data.slides %}
+        {% for component in slide.component %}
+          {% partial 'components/carousel/slide/_' body %}	
+            {% partial 
+              'components/' ~ component._group ~ '/_' 
+              data=component.content 
+              componentId = componentId 
+            %}
+          {% endpartial %}
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
+  </ul>
+  {% if data.has_navigation %}
+  <div class="carousel__navigation">
+    <button type="button" class="carousel__navigation-next"></button>
+    <button type="button" class="carousel__navigation-prev"></button>
+  </div>
+  {% endif %}
+</div>
+
+{% if data.has_thumbs %}
+<div class="carousel carousel-thumbs js-carousel-thumbs v-gap gap gap--row--sm gap--col--sm carousel--slides-sm--4 scrollbar">
+  <ul class="carousel__wrapper carousel-thumbs__wrapper js-carousel-wrapper">
+    {% if body %}
+      {{ body | raw }}
+    {% else %}
+      {% for slide in data.slides %}
+        {% for component in slide.component %}
+          {% partial 'components/carousel/slide/_' body %}	
+            {% partial 
+              'components/' ~ component._group ~ '/_' 
+              data=component.content 
+              componentId = componentId 
+            %}
+          {% endpartial %}
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
   </ul>
 </div>
+{% endif %}

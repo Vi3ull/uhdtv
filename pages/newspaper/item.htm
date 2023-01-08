@@ -1,0 +1,42 @@
+title = "Газета учебного центра"
+url = "/newspaper/:slug"
+layout = "default"
+
+==
+<?php
+
+function onStart() {
+		
+		$slug = str_replace('.html', '', $this->param('slug'));
+		// $slug	= $this->param( 'slug' );		
+		$gazetas	= \Maxon\Uhd\Models\Newspaper::where( 'slug', $slug )->first();
+
+		if ( !$gazetas ) {
+			$this->setStatusCode( 404 );
+			return $this->controller->run( '404' );
+		}
+
+		$this->page->meta_title	= $gazetas->meta_title;
+		$this->page->meta_description	= $gazetas->meta_description;
+		$this->page->meta_keywords	= $gazetas->meta_keywords;
+		$this->page->name	= $gazetas->name;
+		$this->page->image	= $gazetas->image;		
+		$this[ 'gazetas' ]	= $gazetas;		
+		
+	}
+?>
+==
+<div class="navi">
+<a href="/">Главная страница</a> &nbsp;»&nbsp;<a href="/pg/"></a>
+</div>
+
+<p>Внимание! Дождитесь загрузки газеты, чтобы её просмотреть</p>
+
+<iframe src="https://docs.google.com/viewer?url={{gazetas.file.path}}&embedded=true" style="width: 100%; height: 600px;" frameborder="0">Ваш браузер не поддерживает фреймы</iframe>
+  
+<p align="center"><strong>Поделиться в социальных сетях:</strong></p>
+<script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+<script src="//yastatic.net/share2/share.js"></script>
+<div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,gplus,twitter,whatsapp,telegram" align="center"></div>
+
+<div class="clear"></div>

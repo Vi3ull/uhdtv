@@ -1,32 +1,27 @@
 {% if breadcrumbs %}
-<div class="pt-20 pb-10 bg-gradient-to-tr from-gray-800 to-clr-cta/70">
-  <div class="container flex flex-col mt-16">
-    <div class="font-nunito font-bold text-5xl text-gray-300 leading-tight mb-3">
+<div class="breadcrumbs shadow shadow--lg">
+  <div class="breadcrumbs__inner" aria-label="Breadcrumb">
+    <div class="breadcrumbs__title container">
       {{ this.page.title }}
     </div>
-  </div>
-  <div class="bg-white w-full py-2 mt-10">
-    <div class="container flex" aria-label="Breadcrumb">
-      <ol class="inline-flex items-center space-x-1 md:space-x-3">
-        <li class="inline-flex items-center {{ breadcrumb.isActive ? 'active' : '' }}">
-          <a href="/"
-            class="inline-flex items-center text-sm font-nunito font-medium text-gray-800 hover:text-gray-500">
-            {% partial 'common/icon' class="w-4 h-4 mr-2 fill-transparent stroke-2 stroke-gray-500" icon="home" %}
-            Главная
-          </a>
-        </li>
-        {% for breadcrumb in breadcrumbs %}
-        <li class="inline-flex items-center">
-          <a href="{{ breadcrumb.url }}"
-            class="inline-flex items-center text-sm font-nunito font-medium {{ breadcrumb.isActive ? 'text-clr-cta cursor-default' : 'text-gray-800 hover:text-gray-900' }}">
-            {% partial 'common/icon' class="w-4 h-4 mr-2 fill-transparent stroke-2 stroke-gray-500 rotate-90" icon="chevron"
-            %}
-            {{ breadcrumb.title }}
-          </a>
-        </li>
-        {% endfor %}
-      </ol>
-    </div>
+    <ol class="breadcrumbs__list container">
+      <li class="breadcrumbs__list-item">
+        <a href="{{ this.page.url == '/' ? '#' : '/' }}"
+          class="breadcrumbs__link {{ breadcrumb.isActive ? 'breadcrumbs__link--active' : '' }}">
+          {% partial 'common/icon' class="breadcrumbs__icon" icon="home" %}
+          Главная
+        </a>
+      </li>
+      {% for breadcrumb in breadcrumbs %}
+      <li class="breadcrumbs__list-item">
+        <a href="/{{ breadcrumb.url }}"
+          class="breadcrumbs__link {{ breadcrumb.isActive ? 'breadcrumbs__link--active' : '' }}">
+          {% partial 'common/icon' class="breadcrumbs__icon rotate rotate--90" icon="chevron" %}
+          {{ breadcrumb.title }}
+        </a>
+      </li>
+      {% endfor %}
+    </ol>
   </div>
 </div>
 {% endif %}

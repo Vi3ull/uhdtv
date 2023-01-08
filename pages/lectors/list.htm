@@ -1,0 +1,35 @@
+title = "Категории"
+url = "/prepodavateli"
+layout = "default"
+
+[viewBag]
+title_up = "Преподаватели Учебного центра UHD"
+==
+<?php
+	function onStart() {
+		$this[ 'lectors' ]	= \Maxon\Uhd\Models\Lector::IsPublished()->orderBy('name', 'asc')->paginate(20);
+
+		$this->page->meta_title	= "Список преподавателей мастерских учебного центра UHD (ЮэйчДи)";
+		$this->page->meta_description	= "Преподаватели мастерских: школы телевидения, кино, школы радио, звукорежиссуры, школы дубляжа, актёрского мастерства, фотошколы, школы грима";
+		$this->page->meta_keywords	= "";
+		$this->page->name	= "Преподаватели Учебного центра UHD";    
+	}
+?>
+==
+<div class="video">
+	<div class="nach green">
+
+		<p style="text-align: center;">
+			<iframe src="https://vk.com/video_ext.php?oid=-85156958&id=456241177&hash=31d4269b16b0c6a4" width="100%" height="360" frameborder="0" allowfullscreen="1" allow="autoplay; encrypted-media; fullscreen; picture-in-picture"></iframe>
+		</p>
+	</div></div>
+
+	
+	
+<div class="prof bg02">
+{% for lector in lectors %}
+     {% partial 'list/lectors' item=lector catalog="lectors"%}
+{% endfor %}
+</div>
+
+{% partial 'pagination' items=lectors %}

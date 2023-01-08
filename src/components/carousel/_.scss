@@ -1,14 +1,41 @@
+$slidesCount: 7;
+
+$carouselBreakpoints: (
+  sm: 360px, 
+  md: 768px, 
+  lg: 1024px, 
+  2xl: 1536px,
+) !default; 
+
 .carousel {
   --carouselOwerflowX:auto;
+  --carouselOwerflowY:hidden;
   --carouselSlidesCount:auto;
-  --carouselSlidesGap:0px;
+  --carouselSlidesGap: var(--colGapSize, 0px);
   --carouselScrollPaddingSize:#{rem(8)};
   --carouselScrollPadding:var(--carouselScrollPaddingSize);
+  --carouselNavigationSize: #{rem(44)};
+  --carouselNavigationColor: #fff;
   
   position: relative;
-  overflow: var(--carouselOwerflowX);
+  width: 100%;
+  overflow-y: var(--carouselOwerflowY);
+  overflow-x: var(--carouselOwerflowX);
   scroll-snap-type: x mandatory;
-  margin: 0 auto;
+  // margin: 0 auto;
+
+  // .carousel--has--thumbs
+
+  // &--has--thumbs {
+  //   width: 70%;
+  // }
+
+  // .carousel--type--vertical
+
+  &--type--vertical {
+    --carouselOwerflowX:hidden;
+    --carouselOwerflowY:auto;
+  }
 
   // .carousel--inited
 
@@ -16,6 +43,21 @@
     --carouselSlidesGap: 0;
     --carouselOwerflowX: hidden;
     --carouselScrollPadding: calc(var(--carouselScrollPaddingSize) + var(--scrollbarSize));
+  }
+
+  // .carousel--slides
+
+  &--slides {
+    @each $breakpointAbbr, $breakpointSize in $carouselBreakpoints {
+      @media screen and (min-width: $breakpointSize) {
+  
+        @for $i from 1 through $slidesCount {
+          &-#{$breakpointAbbr}--#{$i} {
+            --carouselSlidesCount: #{$i};
+          }
+        }
+      }
+    }
   }
 
   // .carousel__wrapper
@@ -27,52 +69,42 @@
     display: flex;
     box-sizing: content-box;
     padding-bottom: var(--carouselScrollPadding);
+
+    .carousel--type--vertical & {   
+      flex-direction: column;
+      padding-bottom: 0;
+      padding-right: var(--carouselScrollPadding);
+    }
   }
 
   // .carousel__slide
 
   &__slide {
     position: relative;
-    width: calc((100% - (var( --carouselSlidesCount ) - 1)*var(--carouselSlidesGap))/var( --carouselSlidesCount ));
     flex-shrink: 0;
+    width: calc((100% - (var( --carouselSlidesCount ) - 1)*var(--carouselSlidesGap))/var( --carouselSlidesCount ));
+    
+    .carousel--type--vertical & {
+      --carouselSlidesCount:3;
+      
+      width: 100%;
+      height: auto;
+      // height: calc((100% - (var( --carouselSlidesCount ) - 1)*var(--carouselSlidesGap))/var( --carouselSlidesCount ));;
+    }
 
-    &+& {
+    & + & {
       margin-left: var(--carouselSlidesGap);
 
       .carousel--inited & {
         --carouselSlidesGap: 0;
       }
+
+      .carousel--type--vertical & {
+        margin-left: 0;
+        margin-top: calc(var(--carouselSlidesGap) / 2);
+      }
     }
   }
 
-  // .carousel__pagination
 
-  &__pagination {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: rem(54);
-    list-style: none;
-  }
-  
-  // .carousel__pagination-bullet
-
-  &__pagination-bullet {
-    display: inline-block;
-    width: rem(12);
-    height: rem(12);
-    margin: rem(2);
-    cursor: pointer;
-    background-color: var(--stone);
-    border-radius: rem(100);
-
-    &+& {
-      margin-left: rem(10);
-    }
-
-    // .carousel__pagination-bullet--state--active
-
-    &--state--active {
-      background-color: var(--active);    
-    }
-  }
 }

@@ -1,0 +1,54 @@
+title = "Прямая трансляция"
+url = "/pg/tv.html"
+layout = "default"
+
+==
+<?php
+
+function onStart() {
+
+		$this->page->meta_description	= "";
+		$this->page->meta_keywords	= "";
+		$this->page->name	= "Прямая трансляция";
+    }
+?>
+==
+<div class="navi">
+<a href="/">Главная страница</a> &nbsp;»&nbsp;<a href="/pg/"></a>
+</div>
+
+<style>
+   .videoWrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 */
+        padding-top: 25px;
+        height: 0;
+}
+.videoWrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+}
+   </style>
+
+
+<div class="videoWrapper">
+<iframe src="https://vk.com/video_ext.php?oid=-85156958&id=456240804&hash=7f0648415eb550ce&hd=2" width="853" height="480" allow="autoplay; encrypted-media; fullscreen; picture-in-picture;" frameborder="0" allowfullscreen></iframe>
+</div>
+  <br>
+
+<div class="nach" align="center"><p align="center"><strong>Поделиться в социальных сетях:</strong></p></div>
+<script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+<script src="//yastatic.net/share2/share.js"></script>
+<div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,gplus,twitter,whatsapp,telegram" align="center"></div>
+<br>
+
+<!-- <div class="nach" align="center"><p>Трансляции также доступны в нашей группе <a href="https://vk.com/eduhd" target="_blank">VK</a></p></div> -->
+</p>
+
+<div class="nach" align="center">
+<p>Смотрите записи передач на канале <a rel="nofollow" href="https://vk.com/video/@eduhd">ВК видео</a>. Подписывайтесь!</p>
+</div>
+<br>

@@ -1,0 +1,32 @@
+fields:
+  _ruler1:
+    label: Стилизация
+    type: ruler
+
+  container_type: 
+    type: nestedform
+    showPanel: false
+    form: ~/themes/uhdtv/partials/components/shared/container.yaml
+    span: row
+    cssClass: col-md-6 p-0
+
+  v_gap_type: 
+    type: nestedform
+    showPanel: false
+    form: ~/themes/uhdtv/partials/components/shared/v-gap.yaml
+    span: row
+    cssClass: col-md-6 p-0
+
+  rounded_type:
+    type: nestedform
+    showPanel: false
+    form: ~/themes/uhdtv/partials/components/shared/rounded.yaml
+    span: row
+    cssClass: col-md-6 p-0
+
+  shadow_type:
+    type: nestedform
+    showPanel: false
+    form: ~/themes/uhdtv/partials/components/shared/shadow.yaml
+    span: row
+    cssClass: col-md-6 p-0

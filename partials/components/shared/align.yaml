@@ -1,0 +1,8 @@
+fields:
+   align: 
+      label: Выравнивание
+      type: dropdown
+      options:
+          "row--start": "Влево"
+          "row--end": "Вправо"
+          "row--center": "По центру"

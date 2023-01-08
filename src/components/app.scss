@@ -1,39 +1,37 @@
+// @tailwind base;
+// @tailwind components;
+// @tailwind utilities;
+
 @import './!common/_';
-// @import './menu-toggle/_';
-// @import './dropdown/_';
+@import './container/_';
+@import './header/_';
+@import './navbar/_';
+@import './toggler/_';
+@import './dropdown/_';
+@import './page/_';
+@import './footer/_';
+@import './typography/_';
+@import './breadcrumbs/_';
+@import './pagination/_';
 @import './button/_';
-@import './grid/_';
+@import './row/_';
+@import './gap/_';
 @import './v-gap/_';
+@import './rounded/_';
+@import './shadow/_';
+@import './rotate/_';
 @import './carousel/_';
+@import './carousel/navigation/_';
+@import './carousel/pagination/_';
+@import './carousel/thumbs/_';
 @import './scrollbar/_';
-
-@tailwind base;
-
-@layer base {
-  // input[type='text'],
-  // input[type='password'],
-  // input[type='email'],
-  // input[type='number'],
-  // input[type='url'],
-  // input[type='date'],
-  // input[type='datetime-local'],
-  // input[type='month'],
-  // input[type='week'],
-  // input[type='time'],
-  // input[type='search'],
-  // input[type='tel'],
-  // input[type='checkbox'],
-  // input[type='radio'],
-  // select,
-  // select[multiple],
-  // textarea {
-  //   @apply placeholder-shown:autofill:shadow-autofill #{!important};
-  // }
-}
-
-@tailwind components;
-
-@layer components {
-}
-
-@tailwind utilities;
+@import './banner/_';
+@import './card/_';
+@import './post/_';
+@import './video/_';
+@import './gallery/_';
+@import './table/_';
+@import './badge/_';
+@import './visually-hidden/_';
+@import './error/_';
+@import './figure/_';

@@ -1,0 +1,62 @@
+title = "ОТправка данных"
+url = "/callme/send"
+is_hidden = 0
+==
+<?php
+function onStart(){
+	
+	App::setLocale('ru'); // Выставляем локализацию сообщений для валидатора
+	
+	$repiatTime = 60; // Время повторной отправки в секундах
+	$name = trim(e(post('name')));
+	$phone = trim(preg_replace("/\D/", "", trim(post('phone'))));
+	
+	# Валидация вводимых данных
+	$validator = Validator::make(
+            [
+            'Имя' => $name,
+            'Мобильный_телефон' => $phone,
+            ],
+            [
+            'Имя' => 'min:2|max:100',
+            'Мобильный_телефон' => 'required|min:15|max:15',
+            ]
+        );
+        
+	if ($validator->fails())
+    {
+    	$this['alerts'] =  $validator->messages()->all();
+    } else {
+    	
+    	if( Session::get('repeat')!="" && time() < Session::get('repeat') )
+    	{
+    		$timeDiff = Session::get('repeat') - time();
+    		$this['alerts'] = ['Повторную заявку можно отправить через '.$timeDiff.' сек.'];
+    	}
+    	else
+    	{
+    		DB::table('maxon_feed_')->insert(
+	    		[
+	    			'name' => $name,
+	    			'phone' => $phone,
+	    			'ip' => $_SERVER['REMOTE_ADDR']
+	    		]
+			);
+			
+			if($name==""){
+				$name="Не указано.";
+				
+			}
+    		Session::put('repeat', time() + $repiatTime);
+    	}
+    }
+}
+?>
+==
+{% if alerts %}
+ {% for alert in alerts %}
+   <div class="error">{{ alert }}</div>
+ {% endfor %}
+{% else %}
+ <div class="message">Заявка принята!</div>
+{% endif %}

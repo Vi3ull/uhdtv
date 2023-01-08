@@ -1,0 +1,16 @@
+title = "Благодарности учебному центру"
+url = "/acknowledgements/"
+layout = "default"
+==
+<?php
+
+function onStart() {
+		$this[ 'galleries' ] = \Maxon\Uhd\Models\Gallery::IsPublished()->where( 'id','=','29')->first();
+
+        $this->page->meta_title	= "Благодарности учебному центру";
+        $this->page->name	= "Благодарности учебному центру";
+	}
+?>
+==
+{% partial 'components/gallery/_' gallery=galleries.images %}
+

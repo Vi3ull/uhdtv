@@ -1,7 +1,29 @@
 .v-gap {
-  @each $abbr, $size in $gaps {
-    &--#{$abbr} {
-      margin-bottom: rem($size);
+  --vGapTop: 0;
+  --vGapBottom: 0;
+
+  margin-top: var(--vGapTop);
+  margin-bottom: var(--vGapBottom);
+
+  // .v-gap--top--negative
+
+  &--top--negative {
+    margin-top: calc(var( --vGapTop ) * -1);
+  }
+
+  // .v-gap--bottom--negative
+
+  &--bottom--negative {
+    margin-bottom: calc(var( --vGapBottom ) * -1);
+  }
+
+  @each $abbr, $size in $gapSizes {
+    &--top--#{$abbr} {
+      --vGapTop: #{$size};
+    }
+    
+    &--bottom--#{$abbr} {
+      --vGapBottom: #{$size};
     }
   }
 }

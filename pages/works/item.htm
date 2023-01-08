@@ -1,0 +1,37 @@
+title = "Работы слушателей"
+url = "/works/:slug"
+layout = "default"
+meta_title = "Работы слушателей"
+==
+<?php
+function onStart() {		
+		$slug		= $this->param( 'slug' );
+		
+		$workcategory	= \Maxon\Uhd\Models\Workcategory::where( 'slug', $slug )->with(['works' =>function($q){
+			$q->isPublished()->orderBy('updated_at', 'asc');
+		} ])->first();
+
+		//dump($workcategory->ToArray());
+
+		if ( !$workcategory ) {
+			$this->setStatusCode( 404 );
+			return $this->controller->run( '404' );
+		}
+		$this->page->name	= $workcategory->name;
+		$this[ 'workcategory' ]			= $workcategory;	
+		$this[ 'works' ]			= $workcategory->works()->isPublished()->orderBy('id', 'desc')->paginate(12);
+	}
+?>
+==
+<div class="navi">
+<a href="/">Главная страница</a> &nbsp;»&nbsp;<a href="{{ 'works/list' | page() }}/">Работы слушателей</a>
+</div>
+
+<div class="video-list">
+    {% for work in works %}	
+        {% partial 'list/works' work=work %}
+    {% endfor %}
+</div>
+<div class="clear"></div>
+
+{% partial 'pagination' items=works  %}

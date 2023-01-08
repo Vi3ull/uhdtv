@@ -1,0 +1,57 @@
+title = "Схема проезда"
+url = "/pg/shema-proezda.html"
+layout = "default"
+
+==
+<?php
+
+function onStart() {
+
+    	$this->page->meta_title	= "Схема проезда в Учебный центр кино и телевидения UHD";
+		$this->page->meta_description	= "";
+		$this->page->meta_keywords	= "";
+		$this->page->name	= "Схема проезда в Учебный центр кино и телевидения UHD";
+		$this[ 'specs' ]	= \Maxon\Uhd\Models\Spec::IsPublished()->orderBy('updated_at', 'ASC')->paginate(20);
+	}
+?>
+==
+<div class="navi">
+<a href="/">Главная страница</a> &nbsp;»&nbsp;<a href="/pg/"></a>
+</div>
+
+<h1>Контакты</h1>
+<h2>Учебный центр UHD на шаболовке / Школа телевидения на Шаболовской</h2>
+<div itemscope itemtype="http://schema.org/LocalBusiness">
+    <meta itemprop="name" content="Учебный центр кино и телевидения UHD">
+    <meta itemprop="email" content="edu@uhdtv.ru">
+    <span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+        <meta itemprop="streetAddress" content="Ленинский проспект, дом 15, подъезд 1">
+        <meta itemprop="addressLocality" content="Москва">
+    </span>
+
+    <p><strong>Время работы:</strong> <span itemprop="openingHours" datetime="Mo-Fr, 15:00−22:00">с 15:00 до 22:00 пн-птн.</span> </p>
+    <p><strong>Телефон:</strong> <span itemprop="telephone"><a href="tel:+74996536090">+7 (499) 653-60-90</a> </span></p>
+    <p><strong>Приём звонков </strong>с 12:00 до 22:00 пн-птн.</p>
+    <p><strong>E-mail:</strong> <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%65%64%75%40%75%68%64%74%76%2e%72%75&#63;&#115;&#117;&#98;&#106;&#101;&#99;&#116;&#61;%d0%92%d0%be%d0%bf%d1%80%d0%be%d1%81%20%d1%81%20%d1%81%d0%b0%d0%b9%d1%82%d0%b0">&#101;&#100;&#117;&#64;&#117;&#104;&#100;&#116;&#118;&#46;&#114;&#117;</a></p>
+</div>
+
+<p style=""><strong>Адрес:</strong> Москва, Ленинский проспект, дом 15, подъезд 1. Нужный вход в здание  находится напротив остановки со стороны Ленинского проспекта. На охране нужно сказать, что идёте в школу телевидения, 3-й этаж.</p>
+
+<div align="center"><div class="imgm"><img src="{{ 'assets/images/uhdmap.jpg'|theme }}" width="700px"></div></div>
+
+<h2>Варианты проезда:</h2>
+<ol>
+    <li>Пешком от метро "Шаболовская" - 600 м. Вход в здание находится рядом с остановкой со стороны Ленинского проспекта.</li>
+    <li>От метро "Октябрьская" (радиальная) до остановки улица Академика Петровского.<br>
+    Автобусы: 144 (выходить через одну), Н1, м1 (выходить через две), Троллейбусы: 4, м4, 7 - выходить через две, 4 мин. Перейти через подземный переход. Нужный вход в здание находится напротив остановки.</li>
+    <li>От метро "Октябрьская" (кольцевая) до остановки улица Академика Петровского.<br>
+    Автобусы: 144 (выходить на следующей), Н1, 111, 196, м1 (выходить через одну), Троллейбусы: 4, м4, 7 - выходить через одну, 4 мин. Перейти через подземный переход. Нужный вход в здание находится напротив остановки.</li>
+    <li>От метро "Ленинский проспект", МЦК "Площадь Гагарина" до остановки "Травмопункт". <br>
+    Автобусы: 144 (выходить на следующей), Н1, 111, 196, м1 (выходить через 5), Троллейбусы: 4, м4, 7 - выходить через одну, 12 мин. Вход в здание находится напротив остановки.</li>
+</ol>
+
+<h2>Как пройти пешком от ст. метро Шаболовская?</h2>
+<script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A04myBQegCY0186PjP7uQbnkK38iYOPYX&amp;width=100%25&amp;height=450&amp;lang=ru_RU&amp;scroll=true"></script>
+
+<h2>Проезд от ст. метро Октябрьская</h2>
+<script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A2d1e048fa401b76281e9cc2f393b1579f57b1127d56359b9620ccc38ae98ae78&amp;width=100%25&amp;height=467&amp;lang=ru_RU&amp;scroll=true"></script>

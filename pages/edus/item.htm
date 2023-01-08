@@ -1,0 +1,67 @@
+title = "Курсы"
+url = "/kurs/:slug"
+layout = "default"
+is_hidden = 0
+==
+<?php
+function onStart() {		
+		$slug		= $this->param( 'slug' );
+		$edu	= \Maxon\Uhd\Models\Edu::where( 'slug', $slug )->with([			
+		'specs',
+		'specs.works' =>function($q)
+				{$q->isPublished()->orderBy('id', 'desc')->distinct()->groupBy('id')->take(8);}
+		])->first();
+		
+		$this[ 'schools' ]	= \Maxon\Uhd\Models\School::get();
+
+		if ( !$edu ) {
+			$this->setStatusCode( 404 );
+			return $this->controller->run( '404' );
+		}
+		
+		$this->page->name	= $edu->name;
+		$this[ 'edu' ]		= $edu;
+	}
+?>
+==
+{% if this.theme.reklama %}
+<img src="{{this.theme.reklama.path}}" width="100%">
+<br><br>
+{% endif %}
+
+<div class="navi">
+<a href="/">Главная страница</a> &nbsp;
+{% for school in edu.schools %}
+»&nbsp;<a href="/{{school.slug}}/">{{school.name}}</a>
+{% endfor %}
+</div>
+
+<div class="prof bg01">
+{% for spec in edu.specs %}
+     {% partial 'list/specs' spec=spec catalog="edus" %}
+{% endfor %}
+</div>
+
+{% if edu.id == 1 %}
+<div class="line-spec"><a href="/works/">Дипломные видео-аудио работы слушателей</a></div>
+<br>
+{% else %}
+
+{% for edu in edu.specs %} 
+{% for work in edu.works %}
+{% if loop.index == 1 %}
+ <div class="line-spec"><a href="/works/">{{work.category.name}}</a></div>
+ <br>
+{% endif %}
+{% endfor %}
+{% endfor %}
+
+{% endif %}
+
+<div class="video-list">
+    {% for spec in edu.specs %}
+	{% for work in spec.works %}
+        {% partial 'list/works' work=work workcategory=work.category %}
+    {% endfor %}
+	{% endfor %}
+</div>

@@ -1,0 +1,84 @@
+title = "Работы слушателей"
+url = "/works/:workcategory/:slug"
+layout = "default"
+meta_title = "Работы слушателей"
+
+==
+<?php
+function onStart() {		
+		$slug = str_replace('.html', '', $this->param('slug'));
+		$work	= \Maxon\Uhd\Models\Work::where( 'slug', $slug )->with([
+			'specs',			
+			'specs.works' =>function($q){
+			$q->isPublished()->inRandomOrder()->limit(6);}
+		])->first();
+
+
+//dump($work->toArray());
+		if ( !$work ) {
+			$this->setStatusCode( 404 );
+			return $this->controller->run( '404' );
+		}
+		$this->page->meta_title	= $work->meta_title;
+		$this->page->meta_description	= $work->meta_description;
+		$this->page->meta_keywords	= $work->meta_keywords;
+		$this->page->name	= $work->name;
+		$this->page->image	= $work->image;
+		$this[ 'work' ]			= $work;
+		
+	}
+?>
+==
+<div class="navi">
+<a href="/">Главная страница</a> &nbsp;»&nbsp;<a href="{{ 'works/item' | page({slug : work.category.slug}) }}/">{{work.category.name}}</a>
+</div>
+
+<p>{{ work.author }}</p>
+{{works}}
+<div class="video-detail">
+<div class="video-detail-left">
+
+{% if work.video %}<div class="videoWrapper"><div class="video2">{{ work.video|raw }}</div></div>{% endif %}
+{{ work.content|raw }}
+{% if work.images == "[]" %}{% else %}{% partial 'galleries' gallery=work type="compact" %}{% endif %}
+
+<div class="clear"></div>
+  <br>
+<div class="nach green">
+<p align="center"><strong>Поделиться в социальных сетях:</strong></p>
+<script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+<script src="//yastatic.net/share2/share.js"></script>
+<div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,gplus,twitter,whatsapp,telegram" align="center"></div>
+<br>
+</div>
+
+</div>
+</div>
+
+<div class="video-detail-right">
+
+	<div class="video-list">
+		{% for spec in work.specs %}
+			{% for work in spec.works %}
+				{% partial 'list/works' work=work workcategory=work.category %}
+			{% endfor %}
+		{% endfor %}
+	</div>
+	<div class="clear"></div>
+
+	{%if work.category_id == 1 %}<div class="videobutton" style="margin-left:20px;"><a href="/works/video/">Все видео работы</a></div>{% endif %}
+	{%if work.category_id == 2 %}<div class="videobutton" style="margin-left:20px;"><a href="/works/grimphoto/">Все работы по гриму</a></div>{% endif %}
+	{%if work.category_id == 3 %}<div class="videobutton" style="margin-left:20px;"><a href="/works/photoart/">Все фото работы</a></div>{% endif %}
+
+	<br>
+</div>
+
+<div class="clear"></div>
+
+
+<div class="prof bg01">
+{% for spec in work.specs %}
+     {% partial 'list/specs' spec=spec %}
+    {% endfor %}
+</div>
+

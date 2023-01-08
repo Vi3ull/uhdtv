@@ -1,0 +1,27 @@
+{
+  "assets/img/icons.svg": {
+    "file": "assets/icons.87387a8c.svg",
+    "src": "assets/img/icons.svg"
+  },
+  "src/components/app.js": {
+    "file": "assets/main.1aeafd71.js",
+    "src": "src/components/app.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "src/components/carousel/_.js"
+    ]
+  },
+  "src/components/carousel/_.js": {
+    "file": "assets/_.9222cec7.js",
+    "src": "src/components/carousel/_.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/components/app.js"
+    ]
+  },
+  "src/components/app.scss": {
+    "file": "assets/app.2afbd8b6.css",
+    "src": "src/components/app.scss",
+    "isEntry": true
+  }
+}

@@ -1,0 +1,67 @@
+<script src="{{ 'assets/js/jquery-1.11.0.min.js?ver=1.0'|theme }}"></script>
+<script src="{{ 'assets/js/jquery.sliderPro.min.js?ver=1.0'|theme }}"></script>
+<link rel="stylesheet" href="{{ 'assets/css/slider-pro.min.css'|theme }}"/>
+<link rel="stylesheet" href="{{ 'assets/css/slider.css?ver=1.01'|theme }}"/>
+
+<script type="text/javascript">
+	$( document ).ready(function( $ ) {
+		$( '#slider5' ).sliderPro({
+			width: 720,
+			height: 400,
+			orientation: 'horizontal',
+			loop: false,
+			autoplay: false,			
+			arrows: true,
+			buttons: false,
+			thumbnailsPosition: 'right',
+			thumbnailPointer: true,
+			thumbnailWidth: 120,
+			breakpoints: {
+				800: {
+					thumbnailsPosition: 'bottom',
+					thumbnailWidth: 100,
+					thumbnailHeight: 100
+				},
+				500: {
+					thumbnailsPosition: 'bottom',
+					thumbnailWidth: 100,
+					thumbnailHeight: 100
+				}
+			}
+		});
+	});
+</script>
+
+	<div id="slider5" class="slider-pro">
+		<div class="sp-slides">
+        {% for slider in item %}
+			<div class="sp-slide">			
+            <div class="video2">{% if slider.videonext %}{{slider.videonext|raw}}{% endif %}{% if slider.video %}{{slider.video|raw}}{% endif %}</div>
+			</div>
+            {% if slider.title %}<div class="sp-caption">{{slider.title}}</div>{% endif %}
+        {% endfor %}	        
+		</div>
+
+		<div class="sp-thumbnails">
+            {% for slider in item %}
+			<div class="sp-thumbnail">
+				<div class="sp-thumbnail-image-container"> 
+				{% if slider.videimage %}				
+				<img class="sp-thumbnail-image" src="{{slider.videimage|media| resize(150, 100, { mode: 'auto' }) }}"/>
+				{% else %}
+
+				{% if slider.image %}
+				<img class="sp-thumbnail-image" src="{{slider.image.getThumb( 120, 'auto' ) }}"/>
+				{% else %}
+				<img class="sp-thumbnail-image" src="{{blog.image.getThumb( 120, 'auto' ) }}"/>
+				{% endif %}
+
+				{% endif %}
+				</div>                
+			</div>
+            {% endfor %}			
+		</div>
+    </div>
+
+
+<div calss="clear"></div>

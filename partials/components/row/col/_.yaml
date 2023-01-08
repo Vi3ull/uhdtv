@@ -1,0 +1,93 @@
+fields:
+  width:
+    label: Ширина колонки
+    type: nestedform
+    showPanel: false
+    form:
+      fields:
+        sm: 
+          label: На мобильных устройствах
+          type: dropdown
+          options:
+            row__col--sm--1: "1"
+            row__col--sm--2: "2"
+            row__col--sm--3: "3"
+            row__col--sm--4: "4"
+            row__col--sm--5: "5"
+            row__col--sm--6: "6"
+            row__col--sm--7: "7"
+            row__col--sm--8: "8"
+            row__col--sm--9: "9"
+            row__col--sm--10: "10"
+            row__col--sm--11: "11"
+            row__col--sm--12: "12"
+          default: row__col--sm--12
+          span: row
+          cssClass: col-md-3
+       
+        md: 
+          label: На планшетах
+          type: dropdown
+          options:
+            row__col--md--1: "1"
+            row__col--md--2: "2"
+            row__col--md--3: "3"
+            row__col--md--4: "4"
+            row__col--md--5: "5"
+            row__col--md--6: "6"
+            row__col--md--7: "7"
+            row__col--md--8: "8"
+            row__col--md--9: "9"
+            row__col--md--10: "10"
+            row__col--md--11: "11"
+            row__col--md--12: "12"
+          default: row__col--md--12
+          span: row
+          cssClass: col-md-3
+      
+        lg: 
+          label: На мониторах ПК(> 1024px)
+          type: dropdown
+          options:
+            row__col--lg--1: "1"
+            row__col--lg--2: "2"
+            row__col--lg--3: "3"
+            row__col--lg--4: "4"
+            row__col--lg--5: "5"
+            row__col--lg--6: "6"
+            row__col--lg--7: "7"
+            row__col--lg--8: "8"
+            row__col--lg--9: "9"
+            row__col--lg--10: "10"
+            row__col--lg--11: "11"
+            row__col--lg--12: "12"
+          default: row__col--lg--12
+          span: row
+          cssClass: col-md-3
+
+        2xl: 
+          label: На мониторах ПК(> 1536px)
+          type: dropdown
+          options:
+            row__col--2xl--1: "1"
+            row__col--2xl--2: "2"
+            row__col--2xl--3: "3"
+            row__col--2xl--4: "4"
+            row__col--2xl--5: "5"
+            row__col--2xl--6: "6"
+            row__col--2xl--7: "7"
+            row__col--2xl--8: "8"
+            row__col--2xl--9: "9"
+            row__col--2xl--10: "10"
+            row__col--2xl--11: "11"
+            row__col--2xl--12: "12"
+          default: row__col--2xl--12
+          span: row
+          cssClass: col-md-3
+
+  component:
+    label: Компонент
+    prompt: Выбрать компонент
+    type: repeater
+    maxItems: 1
+    groups: ~/themes/uhdtv/partials/components/config.yaml

@@ -1,0 +1,82 @@
+<article class="post">
+  <div class="post__date">
+    <span class="post__date-day">
+      {% if date == "1" %}
+        {{post.offpublished_at|rudate("%e")}}
+      {% else %}
+        {{post.published_at|rudate("%e")}}
+      {% endif %}
+    </span>
+    <span class="post__date-month">
+      {% if date == "1" %}
+        {{post.offpublished_at|rudate("%BP")}}
+      {% else %}
+        {{post.published_at|rudate("%BP")}}
+      {% endif %}
+    </span>
+  </div>
+  <div class="post__content">
+    <a href="{{ url ~ '/' ~ post.slug }}" class="post__name">
+      {{ post.name }}
+    </a>
+    <p class="post__description">
+      {% if post.online == "1" %}Мероприятие онлайн и офлайн.{% endif %} 
+        {% if post.meta_description %}
+          {{ post.meta_description|raw }}
+          ...
+        {% else %}
+          {{ str_words(post.excerpt, 40)|default }}
+        {% endif %}
+        {% if spec == "1" %}
+          <br><strong>Мероприятие по специальности</strong>: 
+          {% for specs in post.specs %}
+            {{specs.name}}
+            {% if loop.last %}
+            {% else %}, 
+            {% endif %}
+          {% endfor %}
+      {% endif %}
+    </p>
+  </div>
+  <picture class="post__picture">
+    <img src="{{post.image.getThumb( 400,180, 'crop' ) }}" title="{{ post.name }}" alt="{{ post.name }}" class="post__img">
+  </picture>
+</article>
+
+
+{#
+{% set link = ''~catalog~'/post' %}
+
+<div class="post-list">
+<div class="list-left">
+   <div class="inn">
+   <a href="{{ link | page({ slug : post.slug }) }}{{this.theme.suffix}}" class="noborder">
+  <div class="images-spec">
+    <img src="{{post.image.getThumb( 400,180, 'crop' ) }}" title="{{ post.name }}" alt="{{ post.name }}" width="300px">
+        <div class="text">
+      <div class="left ">
+      {% if date == "1" %}
+         Дата мероприятия {{post.offpublished_at|rudate("%e %BP %Y")}}
+        {% else %}
+         {{post.published_at|rudate("%e %BP %Y")}}
+      {% endif %}
+
+      </div>
+    </div>
+      </div>
+      </a>
+
+    </div>
+</div>
+
+<div class="list-right">
+<div class="zh1"><a href="{{ link | page({ slug : post.slug }) }}{{this.theme.suffix}}">{{ post.name }}</a></div>
+      <p>
+      {% if post.online == "1" %}Мероприятие онлайн и офлайн.{% endif %} {% if post.meta_description %}{{ post.meta_description|raw }}...{% else %}{{ str_words(post.excerpt, 40)|default }}{% endif %}
+      {% if spec == "1" %}<br><strong>Мероприятие по специальности</strong>: {% for specs in post.specs %}{{specs.name}}{% if loop.last %}{% else %}, {% endif %}{% endfor %}{% endif %}
+      </p>
+
+    </div>
+</div>
+<div class="clear"></div>
+#}

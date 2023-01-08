@@ -1,0 +1,145 @@
+fields:
+  clrTheme:
+      label: Цвет темы
+      type: colorpicker
+      default: '#0e8ce4'
+
+  clrHeader:
+      label: Цвет "шапки" сайта
+      type: colorpicker
+      default: '#ffffff'
+
+  clrNavbar:  
+    label: Цвет навигации 
+    type: colorpicker
+    default: '#ffffff'
+
+  clrNavbarLink:
+      label: Цвет ссылок в навигации
+      type: colorpicker
+      default: '#a19a9a'
+
+  clrPage:
+      label: Цвет фона страницы
+      type: colorpicker
+      default: '#f8f8f8'
+
+  clrFooter:
+      label: Цвет "подвала" сайта
+      type: colorpicker
+      default: '#1a1a1a'
+
+  clrFooterHeading:
+      label: Цвет заголовков в подвале сайта
+      type: colorpicker
+      default: '#ffffff'
+
+  clrFooterText:
+      label: Цвет текста в подвале сайта
+      type: colorpicker
+      default: '#a5a5a5'
+
+  clrText:
+      label: Цвет текста
+      type: colorpicker
+      default: '#828282'
+
+  clrHeadings:
+      label: Цвет заголовков
+      type: colorpicker
+      default: '#000000'
+
+  clrLinks:
+      label: Цвет ссылок
+      type: colorpicker
+      default: '#007bff'
+
+  clrBold:
+    label: Цвет жирного текста
+    type: colorpicker
+    default: '#000000'
+
+  clrCounters:
+    label: Цвет counters
+    type: colorpicker
+    default: '#007bff'
+
+  clrBullets:
+    label: Цвет bullets
+    type: colorpicker
+    default: '#007bff'
+
+  clrHr:
+    label: Цвет разрыва строки
+    type: colorpicker
+    default: '#000000'
+
+  clrQuotes:
+    label: Цвет quotes
+    type: colorpicker
+    default: '#007bff'
+
+  clrQuoteBorders:
+    label: Цвет границы qoutes
+    type: colorpicker
+    default: '#007bff'
+
+  clrCaptions:
+    label: Цвет подписей
+    type: colorpicker
+    default: '#000000'
+
+  clrCode:
+    label: Цвет code
+    type: colorpicker
+    default: '#000000'
+
+  clrPreCode:
+    label: Цвет pre code
+    type: colorpicker
+    default: '#000000'
+
+  clrPreBg:
+    label: Цвет pre bg
+    type: colorpicker
+    default: '#ffffff'
+
+  clrThBorders:
+    label: Цвет th borders
+    type: colorpicker
+    default: '#000000'
+
+  clrTdBorders:
+    label: Цвет td borders
+    type: colorpicker
+    default: '#000000'
+      
+  clrHover:
+    label: Цвет при наведении на элементы
+    type: colorpicker
+    default: '#0e8ce4'
+
+  clrFocus:
+    label: Цвет при фокусе на элементе
+    type: colorpicker
+    default: '#0e8ce4'
+
+  clrVisited:
+    label: Цвет посещенных ссылок
+    type: colorpicker
+    default: '#65b5cc'
+
+  clrSelection:
+    label: Цвет при выделении текста
+    type: colorpicker
+    default: '#0e8ce4'
+
+  clrShadow:
+    label: Цвет теней
+    type: colorpicker
+    default: '#0e8ce4'
+
+  clrOverlay:
+      label: Цвет оверлея
+      type: colorpicker
+      default: '#515769'

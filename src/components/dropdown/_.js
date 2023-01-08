@@ -1,38 +1,60 @@
 export default () => ({
   open: false,
 
-  // toggle() {
-  //   this.open = ! this.open
-  // },
-
   toggle() {
+    console.log('toggle')
+
     if (this.open) {
-      return this.close()
+        return this.close()
     }
+
+    this.$refs.button.focus()
 
     this.open = true
   },
 
-  close() {
+  close(focusAfter) {
     if (! this.open) return
 
     this.open = false
+
+    focusAfter && focusAfter.focus()
   },
 
-  trigger: {
+  [':keydown.escape.prevent.stop']() {
+    this.close(this.$refs.button)
+  },
+  [':focusin.window']() {
+    ! this.$refs.panel.contains(this.$event.target) && this.close()
+  },
+  ['x-id']: 'dropdown-button',
+
+  button: {
+    ['x-ref']: 'button',
     ['@click.prevent']() {
-        this.toggle()
+        this.toggle();
     },
-
-    ['@keydown.escape']() {
-      // this.close()
-      console.log(this);
+    [':aria-expanded']() {
+      return this.open
     },
+    [':aria-controls']() {
+      return this.$id('dropdown-button')
+    }
   },
 
-  dialogue: {
-      [':class']() {
-        return this.open ? 'dropdown--active' : ''
+  panel: {
+    ['x-ref']: 'panel',
+    ['x-show']() {
+        return this.open
     },
+    [':class']() {
+      return this.open ? 'dropdown__menu--show' : ''
+    },
+    ['@click.outside']() {
+      this.close(this.$refs.button)
+    },
+    [':id']() {
+      this.$id('dropdown-button')
+    } ,
   },
 });

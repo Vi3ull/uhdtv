@@ -1,0 +1,30 @@
+title = "Медиа ресурсы учебного центра"
+url = "/media-uhd-school/"
+layout = "default"
+meta_title = "Медиа ресурсы учебного центра"
+
+[viewBag]
+title_up = "Медиа ресурсы учебного центра"
+==
+<?php
+function onStart() {
+        $this[ 'mediacategories' ]	= \Maxon\Uhd\Models\Mediacategory::get();
+        // $this[ 'mediacat' ]	= \Maxon\Uhd\Models\Spec::where( 'id','2')->first();        
+		// $this['mediacategories'] = \Maxon\Uhd\Models\Mediacategory::getAllRoot();        
+	}
+?>
+==
+
+<div class="prof bg01">
+{% for media in mediacategories %}
+{% if media.parent_id ==  23 %}
+     {% partial 'list/category' item=media catalog='media' %}
+      {% if media.childcount > 0 %}      
+      {% endif %}
+{% endif %}
+{% endfor %}
+</div>
+
+<div class="clear"></div>
+
+

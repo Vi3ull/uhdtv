@@ -1,0 +1,10 @@
+.shadow {
+  --boxShadow: #{map-get($boxShadows, none)};
+  box-shadow: var(--boxShadow);
+
+  @each $abbr, $property in $boxShadows {
+    &--#{$abbr} {
+      --boxShadow : #{$property};
+    }
+  }
+}

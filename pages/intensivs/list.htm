@@ -1,0 +1,25 @@
+title = "Список интенсивов"
+url = "/intensiv/"
+layout = "default"
+is_hidden = 0
+[viewBag]
+title_up = "Интенсивные курсы"
+==
+<?php
+function onStart() {
+		$this[ 'specs' ]	= \Maxon\Uhd\Models\Spec::IsPublished()->orderBy('name', 'ASC')->paginate(20);        
+
+		$this->page->meta_title	= "Список интенсивных курсов учебного центра UHD (ЮэйчДи)";
+		$this->page->meta_description	= "Список интенсивных курсов в мастерских учебного центра UHD (ЮэйчДи), телевидение и кино, школы радио, звукорежиссуры, школы дубляжа, актёрского мастерства, фотошколы, школы грима";
+		$this->page->meta_keywords	= "";
+		$this->page->name	= "Список интенсивных курсов учебного центра UHD (ЮэйчДи)";   
+	}
+?>
+==
+<div class="prof bg01">
+{% for spec in specs %}
+{% if spec.category.id =="2" %}
+     {% partial 'list/specs' spec=spec %}
+{% endif %}
+{% endfor %}
+</div>

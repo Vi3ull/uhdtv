@@ -1,4 +1,11 @@
 fields:
-  content: 
+  style_settings:
+    type: nestedform
+    showPanel: false
+    form: ~/themes/uhdtv/partials/components/shared/_.yaml
+    span: row
+    cssClass: col-md-12 p-0
+
+  editor_content: 
     type: richeditor
     size: large

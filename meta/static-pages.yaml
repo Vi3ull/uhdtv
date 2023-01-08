@@ -1,2 +1,14 @@
 static-pages:
     index: {  }
+    about: {  }
+    official-info: {  }
+    acknowledgements: {  }
+    media-uhd-school:
+        media-uhd-school-otzyvy-ob-uchebnom-centre-uhd: {  }
+        media-uhd-school-prepodavateli-o-professii: {  }
+    docum: {  }
+    zanyatiya: {  }
+    pg-priemhtml: {  }
+    pg-tvhtml: {  }
+    pg-shema-proezdahtml: {  }
+    kontakt: {  }

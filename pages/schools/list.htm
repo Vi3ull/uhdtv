@@ -1,0 +1,18 @@
+title = "Список school"
+url = "/schools/"
+layout = "default"
+==
+<?php
+	function onStart() {
+		$this[ 'schools' ]	= \Maxon\Uhd\Models\School::get();
+	}
+?>
+==
+<h1>Список school</h1>
+
+<ul>
+{% for school in schools %}
+	<li><a href="{{ 'schools/item' | page({ slug : school.slug }) }}/">{{ school.name }} [{{ school.updated_at | date('d.m.Y') }}]</a></li>
+{% endfor %}
+
+</ul>

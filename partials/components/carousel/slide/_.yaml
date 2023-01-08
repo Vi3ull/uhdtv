@@ -1,0 +1,7 @@
+fields:
+  component:
+    label: Компонент
+    prompt: Выбрать компонент
+    type: repeater
+    maxItems: 1
+    groups: ~/themes/uhdtv/partials/components/config.yaml

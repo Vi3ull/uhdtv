@@ -1,0 +1,16 @@
+{% for item in items %}
+    {% if not item.viewBag.isHidden %}
+    <li class="navbar__list-item {{ item.items ? 'dropdown' : '' }}" {{ item.items ? 'x-data="dropdown"' : '' }}>
+        {% partial __SELF__ ~ "::link" item=item %}
+        {% if item.items %}
+            <ul
+                class="dropdown__menu shadow shadow--lg rounded rounded--sm"
+                aria-labelledby="dropdownMenuButton{{ loop.index }}"
+                {{ item.items ? 'x-bind="panel"' : '' }}
+            >
+                {% partial __SELF__ ~ "::items" items=item.items %}
+            </ul>
+        {% endif %}
+    </li>
+    {% endif %}
+{% endfor %}

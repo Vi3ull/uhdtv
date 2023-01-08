@@ -1,36 +1,108 @@
 :root {
-  --padding-x: 1rem;
+  // --primary: 13 110 253;
+  // --secondary: 108 117 125;
+  // --success: 25 135 84;
+  // --info: 13 202 240;
+  // --warning: 255 193 7;
+  // --danger: 220 53 69;
+  // --light: 248 249 250;
+  // --dark: 33 37 41;
+  // --white: 255 255 255;
+  // --black: 0 0 0;
+
+  --primary: #0d6efd;
+  --secondary: #6c757d;
+  --success: #198754;
+  --info: #0dcaf0;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --light: #f8f9fa;
+  --dark: #212529;
+
+  --clrTheme: 15 117 246;
   --clrHeader: 255 255 255;
-  --clrBody: 255 255 255;
-  --clrFooter: 63 63 70;
-  --clrHeading: 15 117 246;
-  --clrText: 75 85 99;
-  --clrLink: 54 53 48;
-  --clrCta: 15 117 246;
+  --clrNavbar: 255 255 255;
+  --clrNavbarLink: 75 85 99;
+  --clrPage: 255 255 255;
+  --clrFooter: 26 26 26;
+  --clrFooterHeading: 255 255 255;
+  --clrFooterText: 165 165 165;
+
+  --clrText: 55 65 81;
+  --clrHeadings: 17 24 39;
+  --clrLinks: 17 24 39;
+  --clrBold: 17 24 39;
+  --clrCounters: 107 114 128;
+  --clrBullets: 209 213 219;
+  --clrHr: 229 231 235;
+  --clrQuotes: 17 24 39;
+  --clrQuoteBorders: 229 231 235;
+  --clrCaptions: 107 114 128;
+  --clrCode: 17 24 39;
+  --clrPreCode: 229 231 235;
+  --clrPreBg: 31 41 55;
+  --clrThBorders: 209 213 219;
+  --clrTdBorders: 229 231 235;
+
+  --clrHover: 152 44 97;
+  --clrFocus: 29 116 132;
+  --clrVisited: 29 116 132;
   --clrSelection: 15 117 246;
-  --clrHover: 15 117 246;
+  
+  --clrShadow: 0 0 0;
   --clrOverlay: 4 8 20;
 }
 
-$screens: (
-  xs: 360px,
-  xxs: 480px, 
-  sm: 540px, 
-  md: 768px, 
-  lg: 992px, 
-  xl: 1280px,
-  2xl: 1536px,
+$fonts : (
+  mono: ('Inter', monospace),
+  sans: ('Jost', Arial, sans-serif),
+  serif: ('Inter', serif),
+);
+
+$typograhpyFontFamily: map-get($fonts, sans);
+$typograhpyBreakpoints: (
+  14: 480px,
+  16: 768px, 
+  18: 1024px, 
+  // 20: 1280px,
+  // 24: 1536px,
 ) !default; 
 
-$gaps: ( 
+$screens: (
+  // xs: 360px, 
+  sm: 540px, 
+  md: 768px, 
+  lg: 1024px, 
+  xl: 1280px,
+  // 2xl: 1536px,
+) !default; 
+
+$gapSizes: (
+  none: 0px,  
+  default: 16px,  
   sm: 24px, 
   md: 40px, 
   lg: 72px, 
 ) !default; 
 
-$z-layers: (
-);
+$roundedSizes: (
+  none: 0,
+  sm: 4px,
+  md: 8px,
+  lg: 16px,
+  full:	9999px,
+) !default; 
 
-$fonts : (
-  sans: ('Inter', sans-serif),
+$boxShadows: (
+  none:	"0 0 var(--clrShadow)",
+  sm: "0 0px 3px 0 rgb(var(--clrShadow, 0 0 0) / 0.1), 0 1px 2px -1px rgb(var(--clrShadow, 0 0 0)/ 0.1);",
+  md:	"0 0px 6px -1px rgb(var(--clrShadow, 0 0 0) / 0.1), 0 2px 4px -2px rgb(var(--clrShadow, 0 0 0)/ 0.1);",
+  lg:	"0 0px 15px -3px rgb(var(--clrShadow, 0 0 0) / 0.1), 0 4px 6px -4px rgb(var(--clrShadow, 0 0 0) / 0.1);",
+  xl:	"0 0px 25px -5px rgb(var(--clrShadow, 0 0 0) / 0.1), 0 8px 10px -6px rgb(var(--clrShadow, 0 0 0)/ 0.1);",
+) !default; 
+
+$z-layers: (
+  header: 40,
+  dropdown-menu: 40,
+  modal: 50,
 );

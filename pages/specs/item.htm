@@ -1,0 +1,726 @@
+title = "Специальность"
+url = "/section/:slug"
+layout = "default-detail"
+
+==
+<?php
+function onStart() {
+		$slug = str_replace('.html', '', $this->param('slug'));
+		$spec	    = \Maxon\Uhd\Models\Spec::where( 'slug', $slug )->with([
+      'disciplines' =>function($d){
+				$d->isPublished()->distinct()->groupBy('id');
+			},
+			'blogs' =>function($q){
+				$q->isPublished()->take(5);
+			},
+			'works' =>function($q){
+				$q->isPublished()->orderBy('id', 'desc')->take(8);
+			},
+      'annonces' =>function($q){
+				$q->isPublished()->orderBy('offpublished_at', 'asc');
+			},
+      // 'medias' =>function($q){
+			// 	$q->isPublished()->orderBy('id', 'desc')->whereIn( 'mediacategory_id', [20])->take(4);
+			// }
+		])->first();
+
+		//  'medias.mediacategory' =>function($q){$q->where( 'parent_id','=','3')->limit(8);
+    // $q->isPublished()->orderBy('id', 'desc')->whereIn( 'mediacategory_id', [5,2,15])->take(8);
+
+		// $discipline	= \Maxon\Uhd\Models\Discipline::with('lectors')->first();
+		//dump($spec->toArray());
+
+		if ( !$spec ) {
+			$this->setStatusCode( 404 );
+			return $this->controller->run( '404' );
+		}
+
+
+		$this[ 'spec' ]			= $spec;
+    $this[ 'prep' ]    = $spec->where( 'slug', $slug )->with([
+        'disciplines' =>function($p){
+         $p->with(['lectors' => function($p) {
+                    $p->isPublished()->distinct()->groupBy('id');
+                    }]);
+        },
+    ])
+    ->first();
+
+   $this[ 'lector' ]	 = \Maxon\Uhd\Models\lector::with('disciplines')->isPublished()->orderBy('name', 'asc')->get();
+
+
+    $this[ 'otzyv' ]		= $spec->where( 'slug', $slug )->with([
+      'medias' =>function($q){
+				$q->isPublished()->orderBy('id', 'desc')->whereIn( 'mediacategory_id', [20])->take(4);
+			}
+		])->first();
+
+    $this[ 'golos' ]		= $spec->where( 'slug', $slug )->with([
+      'medias' =>function($q){
+				$q->isPublished()->whereIn( 'mediacategory_id', [24])->inRandomOrder()->limit(4);
+			}
+		])->first();
+
+    $this[ 'videoprepod' ]		= $spec->where( 'slug', $slug )->with([
+      'medias' =>function($q){
+				$q->isPublished()->whereIn( 'mediacategory_id', [4,5,6,8,9,11,12,13,14,17,18,21,10,19,18,16,22,7,2])->inRandomOrder()->limit(4);
+			}
+		])->first();
+
+    $this[ 'mediactor' ]		= $spec->where( 'slug', $slug )->with([
+      'medias' =>function($q){
+				$q->isPublished()->whereIn( 'mediacategory_id', [1])->inRandomOrder()->limit(8);
+			}
+		])->first();
+
+    $this[ 'news' ]	= \Maxon\Uhd\Models\Blog::isPublished()->orderBy('id', 'desc')->take(5)->get();
+    $this[ 'otzyvonline' ]		= \Maxon\Uhd\Models\Media::isPublished()->orderBy('id', 'desc')->whereIn( 'mediacategory_id', [20])->take(4)->get();
+    $this[ 'praktikavideo' ]		= \Maxon\Uhd\Models\Media::isPublished()->orderBy('published_at', 'desc')->whereIn( 'mediacategory_id', [25])->take(4)->get();
+    $this[ 'photogals' ] = \Maxon\Uhd\Models\Blog::IsPublished()
+      ->where('galsetting', '=', '1')
+      ->whereHas('specs', function ($q)
+        {$q->whereIn( 'id', [3] );})
+      ->orderBy('published_at', 'desc')->take(8)->get();
+    $this[ 'photogalsgrim' ] = \Maxon\Uhd\Models\Blog::IsPublished()
+      ->where('galsetting', '=', '1')
+      ->whereHas('specs', function ($q)
+        {$q->whereIn( 'id', [12] );})
+      ->orderBy('published_at', 'desc')->take(8)->get();
+    $this[ 'photogalstv' ] = \Maxon\Uhd\Models\Blog::IsPublished()
+          ->where('galsetting', '=', '1')
+          ->whereHas('specs', function ($q)
+            {$q->whereIn( 'id', [1,2,4,5,6,7,8] );})
+          ->orderBy('published_at', 'desc')->take(8)->get();
+
+    $this->page->name	= $spec->name;
+    $this->page->meta_title	= $spec->meta_title;
+		$this->page->meta_description	= $spec->meta_description;
+    $this->page->meta_keywords	= $spec->meta_keywords;
+
+	}
+?>
+==
+
+{% if this.theme.reklama %}
+{% if this.theme.reklama_link %}
+<a href="{{ this.theme.reklama_link }}"><img src="{{this.theme.reklama.path}}" width="100%"></a>
+<br><br>
+{% else %}
+<img src="{{this.theme.reklama.path}}" width="100%">
+<br><br>
+{% endif %}
+{% endif %}
+
+<div class="spectable">
+<div class="div1">
+	<div class="images">
+		<img width="400" src="{{ spec.image.getThumb( 500, 300, {'mode':'crop'}) }}">
+        {% for edu in spec.edus %}
+        <div class="text"><a href="{{ 'edus/item' | page({ slug : edu.slug }) }}/">{{edu.name}}</a></div>
+        {% endfor %}
+
+        {% for school in spec.schools %}
+        {% for edu in spec.edus %}
+
+        {% else %}
+        <div class="text"><a href="{{ 'schools/item' | page({ slug : school.slug }) }}/">{% for namekurs in school.setting_view %}{% if namekurs.namekurs%}{{namekurs.namekurs}}{% else %}{{school.name}}{%endif%}{% endfor %}</a></div>
+        {% endfor %}
+        {% endfor %}
+	</div>
+
+ <!-- акции -->
+
+<br><br>
+<!-- <div class="reg"><h3>Записаться на курс:</h3></div> -->
+<div class="bg02" style="padding: 20px; font-size: 110%;">
+
+
+{% if spec.id == "10" %}
+<div class="nach black" align="center">Внимание! Набор на эту специальность временно не ведется!</div>
+{% elseif spec.id == "28"%}
+<div class="nach black" align="center">Внимание! Набор в группу онлайн не ведется!</div>
+{% else %}
+{% if spec.category.id == 3 %}
+
+<div id="form_137578_1"></div>
+<script type="text/javascript">
+   (function (d, w, c) {
+       (w[c] = w[c] || []).push({formId:137578,host:"formdesigner.ru",formHeight:100, el: "form_137578_1",center: 1,scroll: 0, fields: {field1263490: '{{spec.id}}', field1263491: '{{spec.name}} ({{spec.category.name}})'}
+       });
+       var s = d.createElement("script"), g = "getElementsByTagName";
+       s.type = "text/javascript"; s.charset="UTF-8"; s.async = true;
+       s.src = (d.location.protocol == "https:" ? "https:" : "http:")+"//formdesigner.ru/js/iform.js?v=0.0.2";
+       var h=d[g]("head")[0] || d[g]("body")[0];
+       h.appendChild(s);
+   })(document, window, "fdforms");
+</script>
+
+{% else %}
+<div id="form_116479_1"></div>
+<script type="text/javascript">
+   (function (d, w, c) {
+       (w[c] = w[c] || []).push({formId:116479,host:"order.uhdtv.ru",formHeight:0, el: "form_116479_1", center: 0, fields: {field1015226: '{{spec.id}}', field1015276: '{{spec.name}} ({{spec.category.name}})'}
+       });
+       var s = d.createElement("script"), g = "getElementsByTagName";
+       s.type = "text/javascript"; s.charset="UTF-8"; s.async = true;
+       s.src = (d.location.protocol == "https:" ? "https:" : "http:")+"//order.uhdtv.ru/js/iform.js";
+       var h=d[g]("head")[0] || d[g]("body")[0];
+       h.appendChild(s);
+   })(document, window, "fdforms");
+</script>
+{% endif %}
+{% endif %}
+
+
+</div>
+
+      <p align="center"><strong>Поделиться в социальных сетях:</strong></p>
+<script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+<script src="//yastatic.net/share2/share.js"></script>
+<div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,gplus,twitter,whatsapp,telegram" align="center"></div>
+
+<br>
+</div>
+
+<div class="div2">
+
+{% if spec.category.id == 3 %}
+{% partial 'detail-spec-online' %}
+<div class="clear"></div>
+{% else %}
+{% partial 'detail-spec' %}
+<div class="clear"></div>
+{% endif %}
+
+
+{% if spec.id == "10" %}
+<br>
+<div class="nach black" align="center">Внимание! Набор на эту специальность временно не ведется!</div>
+<br>
+{% else %}
+
+<div align="center" class="date-start">
+<div class="date">Идёт приём на обучение 2022-2023!</div>
+
+{% for srok in spec.kurs_srok %}
+{% if srok.start %}
+<span style="padding: 5px;"><strong>Курс стартует {{ srok.start }}!</strong></span>
+{% else %}
+<span style="padding: 5px;"><strong>Обучение началось 5 сентября 2022 года!</strong></span>
+{% endif %}
+{% endfor %}
+
+
+
+</div>
+<div align="center" class="nach black">
+{% for srok in spec.kurs_srok %}
+{% if srok.start %}
+<p><strong>Ждём Ваши заявки, записывайтесь уже сегодня!</strong></p>
+{% else %}
+<p><strong>Обучение началось, но у Вас есть еще возможность присоединиться к учебным группам 2022-2023! <br>Приглашаем на оформление документов! Будем искренне рады совместному творчеству!</strong></p>
+{% endif %}
+{% endfor %}
+
+{% if spec.skidka %}
+<p><strong>Скидка - {{ spec.skidka }} за первый месяц обучения!</strong></p>
+{% endif %}
+</div>
+<br>
+<div class="clear"></div>
+{% endif %}
+
+{% if spec.annonces.count == "0" %}
+{% else %}
+<div class="final">
+<div class="nach black">
+<div class="line-doc">Приглашаем на мастер-классы</div>
+  <table width="100%" border="0" cellspacing="10">
+  {% for annonce in spec.annonces %}
+  <tr>
+  <td width="80%" valign="top"><img width="100" src="{{annonce.image.getThumb( 100, 'auto' ) }}" style="float:left;padding-right:20px;"> {% if annonce.content %}<a href="{{ 'annonces/item' | page({ slug : annonce.slug }) }}{{this.theme.suffix}}">{{ annonce.name }}</a><br><strong>{{annonce.offpublished_at|rudate("%e %BP %Y")}}</strong> {{annonce.excerpt}}{% else %}{{ annonce.name }}{% endif %}</td>
+  </tr>
+  {% endfor %}
+  </table>
+ <div align="center">
+ <p>Чтобы записаться на нужное мероприятие, нажмите на название, далее откроется страница с формой записи</p>
+<!-- <p><strong>Укажите в форме, как Вы будете присутствовать. <br>Смотреть онлайн или приедете в наш учбеный центр лично</strong></p> -->
+ <a href="/annonce/" class="button style1" target="_blank">Посмотреть все анонсы</a>
+ </div>
+
+ <!-- <div align="center" class="nach green">
+ <p><strong>В течение пяти дней всем желающим оформиться на курсы в УЦ UHD, приготовлен приятный бонус – скидка 5000 рублей за первый месяц обучения!</strong></p>
+ </div> -->
+
+<!--
+<div class="notshow">
+<br>
+<a href="/annonce/" class="noborder"><video autoplay playsinline muted loop poster="https://d1csarkz8obe9u.cloudfront.net/embeddesigns/be499085b5e8142ad79b21cefcd19996_img_embed.jpg" style="max-width:100%;max-hight:800"><source src="https://d1csarkz8obe9u.cloudfront.net/embeddesigns/be499085b5e8142ad79b21cefcd19996_embed.mp4" type="video/mp4"></video></a>
+<br>
+</div> -->
+
+</div>
+</div>
+{% endif %}
+
+
+{% if spec.masters == "[]"%}
+{% else %}
+<div class="nach black">
+<div class="line-spec">{% if spec.masters.count == 1 %}Мастер курса{% else %}Мастера курса{% endif %}</div>
+<br>
+{% for item in spec.masters %}
+<div class="left listp">
+<img src="{{item.image.getThumb( 180,180, 'crop' ) }}" title="{{ item.name }}" alt="{{ item.name }}" width="180px">
+</div>
+<p><a href="{{ 'lectors/item' | page({ slug : item.slug }) }}{{this.theme.suffix}}"><strong>{{ item.name }}</strong></a></p>
+<p>{{ item.meta_description|raw }}...</p>
+<p>&nbsp;</p>
+<div class="clear"></div>
+{% endfor %}
+</div>
+{% endif %}
+
+<br>
+
+{% for bloki in spec.bloki %}
+{% if bloki.plan == '[]' %}
+{% else %}
+{% if bloki.zagolovok %}
+<div class="nach black"><div align="center" class="date-start"><strong>{{ bloki.zagolovok }}</strong></div>{{ bloki.plan2|raw }}</div>
+<br>
+{% else %}
+<div class="nach black"><div align="center" class="date-start"><strong>На курсе по основной дисциплине Вы изучите:</strong></div>{{ bloki.plan2|raw }}</div>
+<br>
+{% endif %}
+{% endif %}
+{% endfor %}
+
+{% for bloki in spec.bloki %}
+{% if bloki.plan %}
+<div class="nach black">{{ bloki.plan|raw }}</div>
+{% endif %}
+{% endfor %}
+
+
+<div class="line-doc">Документы которые Вы получаете после успешного окончания наших курсов</div>
+<br>
+{% if spec.diploms.count > 2 %}<div class="docum-list">{% else %}<div class="docum-list-2">{% endif %}
+{% for spec in spec.diploms %}
+{% partial 'list/docs' item=spec %}
+{% endfor %}
+</div>
+<div class="clear"></div>
+<br>
+
+{% if spec.praktikas == "[]" %}
+{% else %}
+{% for praktika in spec.praktikas %}
+<div class="nach black">
+<div class="line-doc" style="text-align: center;">{{praktika.name}}</div>
+{{praktika.content|raw}}
+</div>
+{% endfor %}
+
+{% for setting in spec.setting_view %}
+{% if setting.praktik == "1" %}
+{% else %}
+<div class="video-list">
+<div class="line-doc" style="text-align: center;"><a href="/media-uhd-school/syuzhety-dlya-efirov/">Примеры сюжетов для практических занятий</a></div>
+<br>
+{% for video in praktikavideo %}
+{% partial 'list/media' item=video mediacategory=video.mediacategory catalog="media" %}
+{% endfor %}
+</div>
+{% endif %}
+{% endfor %}
+
+{% endif %}
+<div class="clear"></div>
+<br>
+
+
+{% if mediactor.medias.count >= "4" %}
+{% for mediactor in mediactor.medias %}{% if loop.index == 1 %}
+<div class="line-doc"><a href="{{ 'media/item' | page({ slug : mediactor.mediacategory.slug }) }}/">{{mediactor.mediacategory.name}}</a></div>
+{% endif %}{% endfor %}
+<br>
+<div class="video-list">
+    {% for mediactor in mediactor.medias %}
+        {% partial 'list/media' item=mediactor mediacategory=mediactor.mediacategory catalog="media" %}
+    {% endfor %}
+</div>
+<div class="clear"></div>
+{% endif %}
+
+
+{% if spec.category.id == 3 %}
+<div class="nach black">{{this.theme.online_edu|raw}}</div>
+{% else %}
+{% if this.theme.spec_priem %}{{this.theme.spec_priem|raw}}{% endif %}
+{% endif %}
+
+
+{% if spec.id ==  "3" %}
+<div class="line-doc" style="text-align: center;"><a href="/galleries-photo/">Практические занятия студентов на курсе по фотографии</a></div>
+<div class="video-list">
+<br>
+    {% for blog in photogals %}
+        {% partial 'list/galblogs' item=blog catalog='blogs' %}
+    {% endfor %}
+</div>
+{% endif %}
+{% if spec.id ==  "12" %}
+<div class="line-doc" style="text-align: center;"><a href="/galleries-grim/">Фотогалерея практических занятий по курсу мастерство гримера</a></div>
+<div class="video-list">
+<br>
+    {% for blog in photogalsgrim %}
+        {% partial 'list/galblogs' item=blog catalog='blogs' %}
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- Фотогралерея -->
+{% if spec.id ==  "1" %}
+<div class="line-doc" style="text-align: center;"><a href="/galleries-tv/">Фотогалерея практических занятий</a></div>
+<div class="video-list">
+<br>
+    {% for blog in photogalstv %}
+        {% partial 'list/galblogs' item=blog catalog='blogs' %}
+    {% endfor %}
+</div>
+{% elseif spec.id ==  "2"%}
+<div class="line-doc" style="text-align: center;"><a href="/galleries-tv/">Фотогалерея практических занятий</a></div>
+<div class="video-list">
+<br>
+    {% for blog in photogalstv %}
+        {% partial 'list/galblogs' item=blog catalog='blogs' %}
+    {% endfor %}
+</div>
+{% elseif spec.id ==  "4"%}
+<div class="line-doc" style="text-align: center;"><a href="/galleries-tv/">Фотогалерея практических занятий</a></div>
+<div class="video-list">
+<br>
+    {% for blog in photogalstv %}
+        {% partial 'list/galblogs' item=blog catalog='blogs' %}
+    {% endfor %}
+</div>
+{% elseif spec.id ==  "5"%}
+<div class="line-doc" style="text-align: center;"><a href="/galleries-tv/">Фотогалерея практических занятий</a></div>
+<div class="video-list">
+<br>
+    {% for blog in photogalstv %}
+        {% partial 'list/galblogs' item=blog catalog='blogs' %}
+    {% endfor %}
+</div>
+{% elseif spec.id ==  "6"%}
+<div class="line-doc" style="text-align: center;"><a href="/galleries-tv/">Фотогалерея практических занятий</a></div>
+<div class="video-list">
+<br>
+    {% for blog in photogalstv %}
+        {% partial 'list/galblogs' item=blog catalog='blogs' %}
+    {% endfor %}
+</div>
+{% elseif spec.id ==  "7"%}
+<div class="line-doc" style="text-align: center;"><a href="/galleries-tv/">Фотогалерея практических занятий</a></div>
+<div class="video-list">
+<br>
+    {% for blog in photogalstv %}
+        {% partial 'list/galblogs' item=blog catalog='blogs' %}
+    {% endfor %}
+</div>
+{% elseif spec.id ==  "8"%}
+<div class="line-doc" style="text-align: center;"><a href="/galleries-tv/">Фотогалерея практических занятий</a></div>
+<div class="video-list">
+<br>
+    {% for blog in photogalstv %}
+        {% partial 'list/galblogs' item=blog catalog='blogs' %}
+    {% endfor %}
+</div>
+{% endif %}
+<!-- Конец блока Фотогралерея -->
+
+<div class="clear"></div>
+
+{% for otzyv in otzyv.medias %}{% if loop.index == 1 %}
+<div class="line-doc"><a href="{{ 'media/item' | page({ slug : otzyv.mediacategory.slug }) }}/">{{otzyv.mediacategory.name}}</a></div>
+{% endif %}{% endfor %}
+<br>
+{% if otzyv.medias.count >= "4" %}
+<div class="video-list">
+    {% for otzyv in otzyv.medias %}
+        {% partial 'list/media' item=otzyv mediacategory=otzyv.mediacategory catalog="media" %}
+    {% endfor %}
+</div>
+<div class="clear"></div>
+{% endif %}
+
+<ul class="tabs">
+  <li class="active" rel="tab1">Часто задаваемые вопросы</li>
+  <li rel="tab2">Изучаемые дисциплины</li>
+  {% if spec.content %}<li rel="tab3">Учебный процесс</li>{% endif %}
+  <li rel="tab4">Преподаватели</li>
+</ul>
+
+<div class="tab_container">
+
+  <div class="d_active tab_drawer_heading" rel="tab1">Часто задаваемые вопросы</div>
+  <div id="tab1" class="tab_content">
+
+<details>
+    <summary>С каким уровнем образования Вы принимаете на обучение?</summary>
+    <h2>Мы принимаем на обучение {% for word in spec.kurs_words %}{{word.many}}{% endfor %}:</h2>
+      <ul>
+        <li>с начальным профессиональным образованием;</li>
+        <li>с незаконченным высшим образованием;</li>
+        <li>средним (полным) общим образованием (9-11 классов).</li>
+        <li>студентов всех курсов Вузов;</li>
+        <li>средним профессиональным образованием;</li>
+        <li>высшим образованием;</li>
+      </ul>
+</details>
+
+<details >
+    <summary>Какие документы, необходимы для оформления договора?</summary>
+     <h2>Документы, необходимые для оформления договора:</h2>
+
+      {% if spec.category.id == "3" %}
+      <ul>
+        <li>Паспорт;</li>
+        <li>Цифровая фотография (аналог фото 3x4);</li>
+        <li>Документ об образовании или его копию (на русском языке).</li>
+      </ul>
+      {% else %}
+      <ul>
+        <li>Паспорт; </li>
+        <li>Три фотографии 3 x 4 (цветных или черно-белых); </li>
+        <li>Документ об образовании или его копию (на русском языке). </li>
+      </ul>
+      {% endif %}
+</details>
+
+<details >
+    <summary>Мне только 16 лет, могу я у Вас учиться?</summary>
+    <p>Да, учиться можете. Обратите внимание, при оформлении документов на обучение обязательно необходимо присутствие одного из родителей (или опекуна) с паспортом. Оформляется и подписывается трёхсторонний договор об оказании платных образовательных услуг, в котором: Заказчик – один из родителей (или опекун), Потребитель – вы (16-летний абитуриент), Исполнитель – Учебный центр кино и телевидения UHD.</p>
+</details>
+
+<details >
+    <summary>Что я получу после окончания обучения?</summary>
+    <ul>
+    <li>Интересную и творческую профессию;</li>
+    <li>Знания и практический опыт;</li>
+    <li><strong>Диплом</strong> (выдаётся на основании ВПО и СПО) о профессиональной переподготовке с правом работы по выбранной специальности или свидетельство о дополнительном образовании (выдаются только после успешного прохождения учебной программы и сдачи итоговой аттестационной работы); </li>
+    <li>Безупречный инструмент саморекламы – <strong>внушительное и содержательное портфолио</strong> для своей новой профессии, убедительно раскрывающее ваш профессиональный уровень, и способное выделить вас среди остальных претендентов для потенциального работодателя.</li>
+    </ul>
+</details>
+
+<details >
+    <summary>Есть ли у вас рассрочка на оплату за обучение?</summary>
+    <p>В договоре о предоставлении платных образовательных услуг, который заключается с любым абитуриентом при оформлении документов на обучение, пункт 4 содержит порядок поэтапной оплаты за каждый месяц, что позволяет скорректировать оплату за обучение заранее, а также при условии расторжения договора по какой-либо причине, отказаться от оплаты по имеющимся условиям договора. </p>
+</details>
+
+<details >
+    <summary>Может ли компания, в которой я работаю, произвести оплату за меня?</summary>
+    <p>Да, компания (или третье лицо) может оплатить ваше обучение. Для этого при оформлении документов на обучение заключается трёхсторонний договор об оказании платных образовательных услуг, в котором: Заказчик – ваша компания (или третье лицо), Потребитель – вы, Исполнитель – Учебный центр кино и телевидения UHD.</p>
+</details>
+
+<!-- <details >
+    <summary>Можно ли оплатить обучение с помощью «Материнского капитала»?</summary>
+    <p>Да можно. Средствами материнского капитала можно оплатить учебу любого ребенка в семье, не только того, после рождения которого было получено право на сертификат. Также можно оплачивать образование сразу нескольких детей;</p>
+    <p>На дату начала обучения ребенок должен быть не старше 25 лет. Организация должна находиться на территории России и иметь лицензию на оказание образовательных услуг.</p>
+    <p>Наш учебный центр находится в Москве и имеет лицензию № 037705 от 20 июля 2016 г. выданную Департаментом образования г. Москвы.</p>
+    <p>Подробную информацию Вы сможете найти на <a href="https://pfr.gov.ru/grazhdanam/msk/msk_obrazovanie/" target="_blank">сайте пенсионного фонда РФ</a></p>
+</details>
+
+<details >
+    <summary>Какая полная стоимость обучения за {% if spec.kurs_srok %}{% for srok in spec.kurs_srok %}{% if srok.number == "12" %}{{srok.number}}{% endif %}{% if srok.number == "9" %}{{srok.number}}{% endif %}{% endfor %}{% endif %} месяцев обучения?</summary>
+    <p>{% if spec.kurs_srok %}{% for srok in spec.kurs_srok %}
+    {% if srok.number == "12" %}228 000 рублей 00 копеек., без учёта скидок.{% endif %}
+    {% if srok.number == "9" %}171 000 рублей 00 копеек., без учёта скидок.{% endif %}
+    {% endfor %}{% endif %}</p>
+</details>
+
+<details >
+    <summary>Могу ли я получить налоговый вычет 13% (НДФЛ) за обучение?</summary>
+    <p>Да, компания (или третье лицо) может оплатить ваше обучение. Для этого при оформлении документов на обучение заключается трёхсторонний договор об оказании платных образовательных услуг, в котором: Заказчик – ваша компания (или третье лицо), Потребитель – вы, Исполнитель – Учебный центр кино и телевидения UHD.</p>
+</details>
+-->
+
+<details >
+    <summary>Предоставляете ли скидки на обучение?</summary>
+    <ul><li>10%-ая скидка при условии оплаты за обучение единым платежом за весь период обучения (только по основным курсам)</li><li>50%-ая скидка выпускникам при желании обучаться второй последующий год в нашем Учебном центре по другой специальности</li><li>20%-ая скидка при условии наличия статуса многодетной семьи несовершеннолетним студентам (не достигшим 18-летия) и предъявлении удостоверения многодетной семьи</li><li>20%-ая скидка людям, имеющим инвалидность (кроме формы обучения с применением дистанционных технологий)&nbsp;и предъявлении справки Бюро МСЭ, подтверждающей инвалидность. Обращаем ваше внимание на то, что наше здание и помещения не оборудованы для передвижения на инвалидных колясках, отсутствуют лифты и пандусы.</li></ul>
+</details>
+
+  </div>
+
+  <div class="tab_drawer_heading" rel="tab2">Изучаемые дисциплины</div>
+  <div id="tab2" class="tab_content">
+
+  <a name="prof"></a>
+
+  <div><h2>Изучаемые дисциплины по направлению: «{{ spec.name }}»</h2></div>
+  <div class="final">
+  <table width="100%" border="0" cellspacing="10">
+  {% for discipline in spec.disciplines %}
+  <tr>
+  <td width="80%" valign="top"><img width="100" src="{{discipline.image.getThumb( 100, 80, {'mode':'crop'}) }}" style="float:left;padding-right:20px;"> {% if discipline.content %}<a href="{{ 'disciplines/item' | page({ slug : discipline.slug }) }}{{this.theme.suffix}}"><strong>{{ discipline.name }}</strong></a>{% else %}<strong>{{ discipline.name }}</strong>{% endif %}</td>
+  </tr>
+  {% endfor %}
+  </table>
+  </div>
+
+  </div>
+
+  {% if spec.content %}<div class="tab_drawer_heading" rel="tab3">Учебный процесс</div>
+  <div id="tab3" class="tab_content">
+  {{spec.content|raw}}
+  </div>
+  {% endif %}
+
+  <div class="tab_drawer_heading" rel="tab4">Преподаватели</div>
+  <div id="tab4" class="tab_content">
+
+  <h3><a href="/prepodavateli/">Преподаватели</a></h3>
+
+<div class="final">
+<table width="100%" border="0" cellspacing="10">
+
+{% for let in lector %}
+{% for discipline in prep.disciplines %}
+	{% for lec in discipline.lectors %}
+{% if let.id == lec.id %}
+  <tr>
+  <td valign="top"><img width="100" src="{{lec.image.getThumb( 100,100, 'crop' ) }}" style="float:left;padding-right:20px;"><a href="{{ 'lectors/item' | page({ slug : lec.slug }) }}{{this.theme.suffix}}"><strong>{{ lec.name }}</strong></a></td>
+  </tr>
+		{% endif %}
+	{% endfor %}
+{% endfor %}
+{% endfor %}
+
+<!--
+{% set lectorsIDs = [] %}
+{% for discipline in spec.disciplines %}
+	{% for lector in discipline.lectors %}
+		{% if lector.id not in lectorsIDs|keys %}
+			{% set lectorsIDs = lectorsIDs|merge([lector.id]) %}
+  <tr>
+  <td valign="top"><img width="100" src="{{lector.image.getThumb( 100, 'auto' ) }}" style="float:left;padding-right:20px;"><a href="{{ 'lectors/item' | page({ slug : lector.slug }) }}{{this.theme.suffix}}"><strong>{{ lector.name }}</strong></a></td>
+  </tr>
+		{% endif %}
+	{% endfor %}
+{% endfor %}
+-->
+
+</table>
+</div>
+
+
+  </div>
+
+</div>
+
+
+<script>
+ // tabbed content
+
+    $(".tab_content").hide();
+    $(".tab_content:first").show();
+
+  /* if in tab mode */
+    $("ul.tabs li").click(function() {
+
+      $(".tab_content").hide();
+      var activeTab = $(this).attr("rel");
+      $("#"+activeTab).fadeIn();
+
+      $("ul.tabs li").removeClass("active");
+      $(this).addClass("active");
+
+    $(".tab_drawer_heading").removeClass("d_active");
+    $(".tab_drawer_heading[rel^='"+activeTab+"']").addClass("d_active");
+
+    });
+  /* if in drawer mode */
+  $(".tab_drawer_heading").click(function() {
+
+      $(".tab_content").hide();
+      var d_activeTab = $(this).attr("rel");
+      $("#"+d_activeTab).fadeIn();
+
+    $(".tab_drawer_heading").removeClass("d_active");
+      $(this).addClass("d_active");
+
+    $("ul.tabs li").removeClass("active");
+    $("ul.tabs li[rel^='"+d_activeTab+"']").addClass("active");
+    });
+
+
+  /* Extra class "tab_last"
+     to add border to right side
+     of last tab */
+  $('ul.tabs li').last().addClass("tab_last");
+
+</script>
+
+
+<div class="clear"></div>
+<br>
+
+
+{% if spec.works.count >= "4" %}
+{% for work in spec.works %}
+{% if loop.index == 1 %}
+<div class="line-spec"><a href="{{ 'works/item' | page({ slug : work.category.slug }) }}/">{{work.category.name}}</a></div>
+{% endif %}{% endfor %}
+
+<br>
+<div class="video-list">
+    {% for work in spec.works %}
+        {% partial 'list/works' work=work workcategory=work.category%}
+    {% endfor %}
+</div>
+<div class="clear"></div>
+{% endif %}
+
+{% if videoprepod.medias.count >= "4" %}
+{% for videoprepod in videoprepod.medias %}{% if loop.index == 1 %}
+<div class="line-doc"><a href="{{ 'media/item' | page({ slug : videoprepod.mediacategory.parent.slug }) }}/">{{videoprepod.mediacategory.parent.name}}</a></div>
+{% endif %}{% endfor %}
+<br>
+<div class="video-list">
+    {% for videoprepod in videoprepod.medias %}
+        {% partial 'list/media' item=videoprepod mediacategory=videoprepod.mediacategory catalog="media" %}
+    {% endfor %}
+</div>
+<div class="clear"></div>
+{% endif %}
+
+
+{% if golos.medias.count >= "4" %}
+{% for voice in golos.medias %}{% if loop.index == 1 %}
+<div class="line-doc"><a href="{{ 'media/item' | page({ slug : voice.mediacategory.slug }) }}/">{{voice.mediacategory.name}}</a></div>
+{% endif %}{% endfor %}
+<br>
+<div class="video-list">
+    {% for voice in golos.medias %}
+        {% partial 'list/media' item=voice mediacategory=voice.mediacategory catalog="media" %}
+    {% endfor %}
+</div>
+<div class="clear"></div>
+{% endif %}
+
+{% for setting in spec.setting_view %}
+{% if setting.work == 1 %}
+
+<div class="line-doc"><a href="/media-uhd-school/otzyvy/">Отзывы об Учебном центре UHD</a></div>
+<br>
+<div class="video-list">
+      {% for media in otzyvonline %}
+          {% partial 'list/media' item=media catalog="media" %}
+      {% endfor %}
+  </div>
+<div class="clear"></div>
+
+{% endif %}
+{% endfor %}
+</div>

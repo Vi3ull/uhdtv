@@ -1,0 +1,86 @@
+title = "Медиа ресурсы учебного центра"
+url = "/media-uhd-school/:slug"
+layout = "default"
+meta_title = "Медиа ресурсы учебного центра"
+is_hidden = 0
+==
+<?php
+function onStart() {		
+		$slug		= $this->param( 'slug' );
+		
+		$mediacategory	= \Maxon\Uhd\Models\Mediacategory::where( 'slug', $slug )->with(['medias' =>function($q){
+			$q->isPublished()->orderBy('updated_at', 'asc');
+		} ])->first();
+
+        //dump($mediacategory->ToArray());
+
+		if ( !$mediacategory ) {
+			$this->setStatusCode( 404 );
+			return $this->controller->run( '404' );
+		}
+		$this->page->name	= $mediacategory->name;
+		$this[ 'mediacategory' ]			= $mediacategory;	
+		$this[ 'medias' ]			= $mediacategory->medias()->isPublished()->orderBy('id', 'desc')->paginate(12);
+
+        $this[ 'catsall' ]	= \Maxon\Uhd\Models\Mediacategory::get();
+	}
+?>
+==
+<div class="navi">
+<a href="/">Главная страница</a> &nbsp;
+{% if mediacategory.parent_id == 23 %}
+»&nbsp;<a href="{{ 'media/list' | page() }}/">Медиа ресурсы учебного центра</a>
+{% else %}
+»&nbsp;<a href="{{ 'media/list' | page() }}/">Медиа ресурсы учебного центра</a>
+»&nbsp;<a href="{{ 'media/item' | page({slug : mediacategory.parent.slug}) }}/">{{mediacategory.parent.name}}</a>
+{% endif %}
+</div>
+
+{% if mediacategory.parent_id == 23 %}
+<div class="video-list">
+{% for cats in catsall %}
+{% if mediacategory.id == cats.parent_id %}
+<div class="item">
+  <div class="images"><a href="{{ 'media/item' | page({ slug : cats.slug, workcategory : workcategory.slug }) }}/">      
+    <img src="{{cats.image.getThumb( 400, 'auto' ) }}" title="{{ cats.name }}" alt="{{ cats.name }}" width="400px">
+    <div class="text">{{ cats.name }}</div></a>
+  </div>  
+</div>
+
+{% else %}
+{% endif %}
+{% endfor %}
+</div>
+<div class="clear"></div>
+{% endif %}
+
+<div class="video-list">
+    {% for media in medias %}
+        {% partial 'list/media' item=media catalog="media" %}
+    {% endfor %}
+</div>
+<div class="clear"></div>
+
+{% partial 'pagination' items=medias  %}
+
+
+<!--
+{% import _self as thisPage %}
+{% macro render_cats(catsall) %}    
+    {% import _self as thisPage %}
+
+    {% for item in catsall %}              
+        <li>{{ item.slug }} {{ item.name }}
+            {% if item.childcount > 0 %}            
+                <ul>
+                    {{ thisPage.render_cats(item.children) }} 
+                </ul>
+            {% endif %}
+        </li>
+    {% endfor %}
+{% endmacro %}
+
+<ul>
+    {{ thisPage.render_cats(catsall) }}
+</ul>
+-->

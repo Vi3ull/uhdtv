@@ -1,0 +1,68 @@
+.toggler {
+  --backgroundColor: rgb(var(--clrTheme) / 1);
+
+  display: block;
+  text-decoration: none;
+  color: rgb(var(--clrTheme) / 1);
+  border: 0;
+
+  @media screen and (min-width: map-get($screens, lg)) {
+    display: none;
+  }
+
+  &--active {
+    --backgroundColor: rgb(var(--clrTheme) / 1);
+  }
+
+  &:focus-visible {
+    @extend %focus;
+  }
+
+  // .toggler__title
+
+  &__title {
+    font-family: map-get($fonts, 'sans');
+    font-size: rem(16);
+    font-weight: 700;
+    letter-spacing: rem(3);
+    text-transform: uppercase;
+    margin-right: em(8);
+  }
+
+  // .toggler__icon
+
+  &__icon {
+    position: relative;
+    width: rem(21);
+    height: rem(1);
+    display: inline-block;
+    background-color: var(--backgroundColor);
+    transition: all .3s cubic-bezier(.7,1,.7,1);
+
+
+    &::before, &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      background-color: var(--backgroundColor);
+      transform: rotate(0);
+      transition: all .3s cubic-bezier(.7,1,.7,1);
+
+      .main-menu--show & {
+        width: rem(21);
+      }
+    }
+
+    &::before {
+      width: rem(10);
+      height: rem(1);
+      bottom: rem(10);
+    }
+
+    &::after {
+      width: rem(16);
+      height: rem(1);
+      top: rem(-5);
+    }
+  }
+}

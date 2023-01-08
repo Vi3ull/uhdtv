@@ -16,15 +16,16 @@
   --btnTextDecoration: none;
   --btnBorderColorHover: transparent;
   --btnBgColorHover: transparent;
-  --btnColorHover: var( --cornflower-pale );
+  --btnColorHover: transparent;
   --btnBorderColorActive: transparent;
   --btnBgColorActive: transparent;
-  --btnColorActive: var( --cornflower-pale );
+  --btnColorActive: transparent;
   // --btnBorderColorDisabled: ;
   // --btnBgColorDisabled: ;
   // --btnColorDisabled: ;
 
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   text-align: center;
   background-color: var( --btnBgColor, transparent );
   border-width: var( --btnBorderWidth, rem(1) );
@@ -58,5 +59,42 @@
 
   & + & {
     margin-left: rem(24);
+  }
+
+  // .button--text--left
+
+  &--text--left {
+    text-align: start;
+  }
+
+  // .button--text--right
+
+  &--text--right {
+    text-align: end;
+  }
+
+  // .button--icon--right
+
+  &--icon--right {
+    .button__icon {
+      order: 9999;
+      margin-left: rem(10);
+      margin-right: 0;
+    }
+  }
+
+  // .button__icon 
+
+  &__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    flex-grow: 0;
+    width: rem(24);
+    height: rem(24);
+    margin-right: rem(10);
+    color: rgb(var(--clrTheme) / 1);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
   }
 }

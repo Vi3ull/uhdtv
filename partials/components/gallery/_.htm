@@ -1,0 +1,22 @@
+{% set componentId = random() %}
+
+<ul class="gallery gallery--cols--{{ data.gallery_cols | default("5") }} v-gap {% for style in data.style_settings %} {{ style | join(' ') }} {% endfor %}">
+  {% for galleryItem in gallery | default(data.gallery) %}
+    <li class="gallery__item">
+      <a class="gallery__item-link" data-fslightbox="gallery-{{ componentId }}" href="{{ galleryItem.path }}"></a>
+      {% partial 'common/icon' class="gallery__item-icon" icon="zoom" %}
+      <figure class="gallery__item-figure">
+        <picture class="gallery__item-picture">
+          <img 
+            class="gallery__item-img"
+            src="{{ galleryItem.path | default(galleryItem.image | media) }}" 
+            alt="{{ (galleryItem.title | default(galleryItem.title)) | raw }}"  
+          >
+        </picture>
+        <figcaption class="gallery__item-title">
+          {{ galleryItem.title | raw }}
+        </figcaption>    
+      </figure>
+    </li>
+  {% endfor %}
+</ul>

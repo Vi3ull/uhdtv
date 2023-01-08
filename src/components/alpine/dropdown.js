@@ -1,14 +1,12 @@
 export default () => ({
   open: false,
 
-  // toggle() {
-  //   this.open = ! this.open
-  // },
-
   toggle() {
     if (this.open) {
-      return this.close()
+        return this.close()
     }
+
+    this.$refs.button.focus()
 
     this.open = true
   },

@@ -1,0 +1,27 @@
+.header {
+  --headerBgClr: rgb(var(--clrHeader) / 1);
+  --headerLogoClr: rgb(var(--clrTheme) / 1);
+
+  position: sticky;
+  top: 0;
+  z-index: map-get($z-layers, header);
+  background-color: var(--headerBgColor, var(--light));
+
+  // .header__navbar
+
+  &__navbar {
+    background-color: var(--headerBgColor, var(--light));
+    box-shadow: var(--boxShadow);
+  }
+
+  // .header__logo
+
+  &__logo {
+    font-size: rem(24);
+    font-weight: 700;
+    line-height: rem(28);
+    text-transform: uppercase;
+    color: var(--headerLogoClr, var(--primary));
+    text-decoration: none;
+  }
+}

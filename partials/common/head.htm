@@ -2,16 +2,29 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>{{ this.page.id == 'home' ? 'UnitHelp | ' : '' }}{{ this.page.meta_title ? this.page.meta_title : this.page.title }}</title>
-<meta name="description" content="{{this.page.meta_description}}">
+<title>{{ this.page.url != '/' ? this.theme.site_name ~ ' | ' : '' }}{{ this.page.meta_title ? this.page.meta_title : this.page.title }}</title>
+<meta name="description" content="{{ this.page.meta_description }}">
+<meta name="keywords" content="{{ this.page.meta_keywords }}">
+
+<meta property="og:title" content="{{ this.page.meta_title }}">
+<meta property="og:description" content="{{ this.page.meta_description }}">
+<meta property="og:image" content="{{ this.page.image.path }}">
+<meta property="og:url" content="">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 {{ vite([ 'src/components/app.scss' ]) }}
 
 {#<link rel="stylesheet" href="{{ ['~/modules/system/assets/css/framework.extras.css'] | theme }}">#}
 
+<style>
+  :root {
+    {{ getThemeColors() }}
+  }
+</style>
+
+
 {% styles %}
-{{ this.theme.include_head }}
+{# this.theme.include_head | raw #}

@@ -1,0 +1,214 @@
+title = "Новость"
+url = "/annonce/:slug"
+layout = "default"
+
+==
+<?php
+
+function onStart() {
+
+		$slug = str_replace('.html', '', $this->param('slug'));
+		// $slug	= $this->param( 'slug' );
+		$annonce	= \Maxon\Uhd\Models\Annonce::where( 'slug', $slug )->with('specs','galleries')->first();
+
+		if ( !$annonce ) {
+			$this->setStatusCode( 404 );
+			return $this->controller->run( '404' );
+		}
+
+		$this->page->meta_title	= $annonce->meta_title;
+		$this->page->meta_description	= $annonce->meta_description;
+		$this->page->meta_keywords	= $annonce->meta_keywords;
+		$this->page->name	= "События учебного центра. Анонсы мероприятий";
+		$this->page->image	= $annonce->image;
+		$this[ 'annonce' ]		= $annonce;
+
+	}
+?>
+==
+<div class="navi">
+<a href="/">Главная страница</a> &nbsp;»&nbsp;<a href="{{ 'annonces/list' | page() }}/">Анонсы мероприятий</a>
+</div>
+
+<h1>{{ annonce.name }}</h1>
+<div class="hh1"></div>
+
+{% if annonce.video %}
+<!-- видео-->
+<div align="center">
+<div class="video2">{{ annonce.video|raw }}</div>
+</div>
+{% else %}
+
+{% if annonce.images == "[]" %}
+	{% if annonce.works == "[]" %}
+		{% if annonce.galleries == "[]" %}
+			{% if annonce.medias == "[]" %}
+			{% if annonce.videoslider %}
+				{%else%}
+					<div align="center">
+						<div class="imgm"><img width="700" src="{{annonce.image.getThumb( 720, 'auto' ) }}"></div>
+					</div>
+				{% endif%}
+			{% endif %}
+		{% endif %}
+	{% endif %}
+{% endif %}
+{% endif %}
+
+{% if annonce.images == "[]" %}
+{% else %}
+{% partial 'galleries' gallery=annonce type="compact" %}<br />
+{% endif %}
+
+{% if annonce.medias.count > 1 %}
+{% partial 'slider' item=annonce.medias %}
+{% else %}
+{% for media in annonce.medias %}
+{% if media.video == "[]" %}
+{% else %}
+<div class="video2" align="center"><div class="videoWrapper">{{ media.video|raw }}</div></div>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if annonce.videoslider %}
+{% partial 'slider' item=annonce.videoslider %}
+{% endif%}
+
+{% if annonce.works.count > 1 %}
+<div align="center">
+	<div class="imgm"><img width="700" src="{{annonce.image.getThumb( 720, 'auto' ) }}"></div>
+</div>
+{% else %}
+{% for work in annonce.works %}
+<!-- дипломные фото работы слушателей-->
+{% if work.images == "[]" %}{% else %}{% partial 'galleries' gallery=work type="compact" %}{% endif %}
+<div class="clear"></div>
+{% endfor %}
+{% endif %}
+
+{% for gallery in annonce.galleries %}
+<!-- фотогалерея-->
+{% if gallery.images == "[]" %}{% else %}{% partial 'galleries' gallery=gallery type="compact" %}{% endif %}
+<div class="clear"></div>
+{% endfor %}
+
+<br>
+<div class="nach black">
+<div class="line-doc">{{annonce.offpublished_at|rudate("%e %BP %Y")}}</div>
+ {{ annonce.content|raw }}</div>
+<br>
+
+{% if annonce.online == "1" %}
+{% if annonce.id == "13" %}
+
+<div class="nach black">
+
+<div class="line-spec" style="text-align:center;"><a href="https://ig2u.ru/products/UHD_master-class/" rel="nofollow" target="_blank">Нажмите для участия в онлайн мероприятии</a></div>
+
+<div align="center"><br><a href="https://ig2u.ru/" target="_blank" class="noborder"><img src="{{ 'assets/images/ig2u.png'|theme }}"></a><br>Технический партнёр обеспечения трансляции и онлайн голосования</div>
+
+</div>
+
+
+<div class="line-doc">Если Вы хотите приехать в наш учебный центр в этот день на мероприятие, заполните пожалуйста форму:</div>
+<div class="nach black">
+
+<div id="form_153336_1"></div>
+<script type="text/javascript">
+   (function (d, w, c) {
+       (w[c] = w[c] || []).push({formId:153336,host:"order.uhdtv.ru",formHeight:100, el: "form_153336_1",center: 1,scroll: 0, fields: {field1494321: '{{annonce.name}}', field1494322: '{{annonce.id}}', field1494323: '{{annonce.offpublished_at|rudate("%e %BP %Y")}}'}
+	   });
+       var s = d.createElement("script"), g = "getElementsByTagName";
+       s.type = "text/javascript"; s.charset="UTF-8"; s.async = true;
+       s.src = (d.location.protocol == "https:" ? "https:" : "http:")+"//order.uhdtv.ru/js/iform.js?v=0.0.2";
+       var h=d[g]("head")[0] || d[g]("body")[0];
+       h.appendChild(s);
+   })(document, window, "fdforms");
+</script>
+<br>
+</div>
+
+{% else %}
+
+<div id="form_135786_1"></div>
+<script type="text/javascript">
+   (function (d, w, c) {
+       (w[c] = w[c] || []).push({formId:135786,host:"order.uhdtv.ru",formHeight:100, el: "form_135786_1",center: 1,scroll: 0, fields: {field1242133: '{{annonce.name}}', field1242134: '{{annonce.id}}', field1489796: '{{annonce.offpublished_at|rudate("%e %BP %Y")}}'}
+	   });
+       var s = d.createElement("script"), g = "getElementsByTagName";
+       s.type = "text/javascript"; s.charset="UTF-8"; s.async = true;
+       s.src = (d.location.protocol == "https:" ? "https:" : "http:")+"//order.uhdtv.ru/js/iform.js?v=0.0.2";
+       var h=d[g]("head")[0] || d[g]("body")[0];
+       h.appendChild(s);
+   })(document, window, "fdforms");
+</script>
+<br>
+{% endif %}
+{% else %}
+<div id="form_153336_1"></div>
+<script type="text/javascript">
+   (function (d, w, c) {
+       (w[c] = w[c] || []).push({formId:153336,host:"order.uhdtv.ru",formHeight:100, el: "form_153336_1",center: 1,scroll: 0, fields: {field1494321: '{{annonce.name}}', field1494322: '{{annonce.id}}', field1494323: '{{annonce.offpublished_at|rudate("%e %BP %Y")}}'}
+	   });
+       var s = d.createElement("script"), g = "getElementsByTagName";
+       s.type = "text/javascript"; s.charset="UTF-8"; s.async = true;
+       s.src = (d.location.protocol == "https:" ? "https:" : "http:")+"//order.uhdtv.ru/js/iform.js?v=0.0.2";
+       var h=d[g]("head")[0] || d[g]("body")[0];
+       h.appendChild(s);
+   })(document, window, "fdforms");
+</script>
+<br>
+{% endif %}
+
+<!-- <div class="nach"align="center">
+<p>По данной ссылке доступна онлайн трансляция мероприятий</p>
+<a href="https://www.uhdtv.ru/pg/tv.html" class="button style1">Смотреть онлайн</a>
+</div> -->
+
+<div class="nach black">
+<p>Несовершеннолетним абитуриентам, которым на момент оформления документов для обучения в Учебном центре кино и телевидения UHD, не исполнилось 18 лет, в обязательном порядке необходимо приезжать в сопровождении одного взрослого (совершеннолетнего родственника, опекуна).</p>
+</div>
+<br>
+
+<div class="line-doc">Спикер мероприятия</div><br>
+<div class="prof bg02">
+{% for lector in annonce.lectors %}
+     {% partial 'list/lectors' item=lector catalog="lectors" %}
+{% endfor %}
+<br>
+</div>
+
+{% for media in annonce.medias %}
+{% if media.files == "[]"%}
+{% else %}
+<script src="{{ 'assets/js/player/playerjs.js?ver=5.2'|theme }}" type="text/javascript"></script>
+<div id="player" style="height:300px;"></div>
+<script>
+  var player = new Playerjs({
+   id:"player",
+   file:[{% for file in media.files %}{"title":"{{file.file_name}}","file":"{{file.path}}"}{% if loop.last %}{% else %}, {% endif %}{% endfor %}]
+});
+</script>
+{% endif %}
+<div class="clear"></div>
+{% endfor %}
+
+{% if annonce.works == '[]' %}
+{% else %}
+<div class="line-doc">Работы студентов</div><br>
+<div class="video-list">
+    {% for work in annonce.works %}
+        {% partial 'list/works' work=work workcategory=work.category catalog="media" %}
+    {% endfor %}
+</div>
+<div class="clear"></div>
+{% endif %}
+
+<div class="line-h2"><h2>Событие относится к специальности:</h2></div>
+<div class="prof bg01">
+{% for spec in annonce.specs %}
+     {% partial 'list/specs' spec=spec %}
+{% endfor %}
+</div>

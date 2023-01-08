@@ -1,40 +1,24 @@
-<section class="grid grid-cols-12">
+<div class="banner v-gap {% for style in data.style_settings %} {{ style | join(' ') }} {% endfor %}">
   <picture
-    class="col-start-1 col-end-13 row-start-1 row-end-1"
+    class="banner__picture"
   >
     <img 
-      class="w-full h-full object-cover"
-      src="{{ data.image | media }}" 
-      alt=""
+      class="banner__img"
+      src="{{ imagePath | default(data.image['path'] | media) }}" 
+      width="{{ imageWidth | default(data.image['width']) }}"
+      height="{{ imageHeight | default(data.image['height']) }}"
+      alt="{{ imageCaption | default(data.image['caption']) }}"
     >
   </picture>
-  <div class="col-start-1 col-end-13 row-start-1 row-end-1 self-center container pt-16 pb-20 z-10">
-    <div 
-      class="
-        prose 
-        prose-headings:text-5xl 
-        prose-headings:text-blue-400 
-        prose-headings:font-sans
-        prose-headings:font-medium 
-        prose-headings:leading-tight 
-        prose-headings:tracking-wide 
-        prose-headings:mb-20
-        prose-p:text-lg
-        prose-p:text-black
-        prose-p:font-sans
-        prose-p:font-normal
-        prose-p:mt-2
-        ml-auto
-      "
-    >
+  <div class="banner__inner">
+    <div class="banner__content typography">
       {{ data.description | raw }}
       {% partial "components/button/_" 
         tagName="a"
-        className="bg-blue-500 text-white rounded-md py-1 px-4"
+        className=""
         body
       %}
-        More
       {% endpartial %}
     </div>
   </div>
-</section>
+</div>

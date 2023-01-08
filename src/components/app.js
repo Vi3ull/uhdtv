@@ -1,70 +1,49 @@
-// // Swiper
-// import { Autoplay, Pagination, Navigation } from "swiper";
+// Alpine
+import Alpine from 'alpinejs';
+import dropdown from './dropdown/_';
 
-// const options = {
-//   modules: [Autoplay, Pagination, Navigation],
-//   loop: false,
-//   slidesPerView: "auto",
-//   speed: 700,
-//   // autoplay: {
-//   //   delay: 5000,
-//   //   disableOnInteraction: false,
-//   //   pauseOnMouseEnter: true,
-//   // },
-//   wrapperClass: "js-carousel-wrapper",
-//   slideClass: "js-carousel-slide",
-//   slideActiveClass: "carousel-slide-active",
-//   slideNextClass: "carousel-slide-next",
-//   slidePrevClass: "carousel-slide-prev",
-//   pagination: {
-//     el: ".carousel__pagination",
-//     clickable: true,
-//     bulletActiveClass: "carousel__pagination-bullet--state--active",
-//     bulletClass: "carousel__pagination-bullet",
-//     bulletElement: "li",
-//   },
-// }; 
+Alpine.data('dropdown', dropdown);
 
-// // AOS
-// // import AOS from 'aos';
+window.Alpine = Alpine;
+Alpine.start();
 
-// // AOS.init();
+// Swiper
+import { Autoplay, Pagination, Navigation } from "swiper";
 
-// // Alpine
-// import Alpine from 'alpinejs';
-// import focus from '@alpinejs/focus';
-// import menu from './alpine/menu';
-// import dropdown from './alpine/dropdown';
-// import modal from './alpine/modal';
-// import handleScroll from './alpine/handleScroll';
-// import timer from './alpine/timer';
+const options = {
+  modules: [Autoplay, Pagination, Navigation],
+  autoplay: {
+    delay: 5000,
+    disableOnInteraction: false,
+    pauseOnMouseEnter: true,
+  },
+}; 
 
-// Alpine.plugin(focus)
-// Alpine.data('menu', menu)
-// Alpine.data('dropdown', dropdown)
-// Alpine.data('modal', modal)
-// Alpine.data('scrollLock', scrollLock)
-// Alpine.data('handleScroll', handleScroll)
-// Alpine.data('timer', timer)
+const optionsObserver = {
+  rootMargin: '50px 0px 0px',
+}
 
-// window.Alpine = Alpine;
-// Alpine.start();
+const carouselObserver = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      import(
+        './carousel/_.js' /* webpackChunkName: "/js/carousel" */
+      ).then( module => {
+        const initCarousel = module.default;
+        initCarousel( entry.target, {
+          ...options, 
+        } )
+      });
+      observer.unobserve(entry.target);
+    }
+  })
+}, optionsObserver);
 
-// // Utils
-// import initInView from './utils/initInView/_';
-// import scrollLock from './utils/scrollLock/_';
+document
+  .querySelectorAll( '.js-carousel' )
+  .forEach( $el => {
+    carouselObserver.observe($el)
+})
 
-// document.querySelectorAll( '.js-carousel' ).forEach( $el => {
-//   if (document.querySelectorAll( '.js-carousel' )) {
-//     initInView( $el, () => {
-//       import(
-//         './carousel/_.js' /* webpackChunkName: "/js/carousel" */
-//       ).then( module => {
-//         const initCarousel = module.default;
-//         initCarousel( $el, {
-//           ...options, 
-//         } )
-//       });
-//     });
-//   }
-// });
+import './video/_';
+import './figure/_';

@@ -1,33 +1,42 @@
-<div class="relative flex justify-center {{ data.card_type }}">
-  <div class="rounded-lg shadow-lg bg-white max-w-sm">
-    {% if data.add_image %}
-    <picture>
-      <img class="rounded-t-lg" src="{{ data.image | media }}" alt=""/>
-    </picture>
-    {% endif %}
-    <div class="p-6">
-      {% if data.add_description %}
-      <div 
-        class="
-          prose 
-          max-w-none 
-          prose-headings:text-xl 
-          prose-headings:font-medium 
-          prose-headings:mb-2
-          prose-p:text-base 
-          prose-p:mb-4
-        "
-      >
-        {{ data.description }}
-      </div>
-      {% endif %}
-      {% if data.add_button %}
-        {% 
-          partial "components/button/_"  
-          data=data.button
-        %}
-        {#<a href="{{ data.button.url }}" class="button before:absolute before:inset-0 before:z-10">{{ data.button.text }}</a>#}
-      {% endif %}
+<article class="card v-gap {{ data.card_type }} {{ data.text_align_type }} {{ data.has_header ? 'card--has--header' : '' }} {% for style in data.style_settings %} {{ style | join(' ') }} {% endfor %}">
+  {% if data.has_image %}
+  <picture
+    class="card__picture"
+  >
+    <img 
+      class="card__img" 
+      src="{{ data.image['path'] | media }}" 
+      width="{{ data.image['width']}}"
+      height="{{ data.image['height']}}"
+      alt="{{ data.image['alt']}}"
+    />
+  </picture>
+  {% endif %}
+
+  {% if data.has_header %}
+  <header class="card__header">
+    <p>{{ data.header_text }}</p>
+  </header>
+  {% endif %}
+
+  {% if data.has_description %}
+  <div class="card__content">
+    <div class="typography">
+      {{ data.description | raw }}
     </div>
-  </div>
-</div>
+    {% endif %}
+    {% if data.has_button %}
+      {% 
+        partial "components/button/_"  
+        data=data.button
+      %}
+    </div>
+  {% endif %}
+
+
+  {% if data.has_footer %}
+  <footer class="card__footer">
+    <p>{{ data.footer_text }}</p>
+  </footer>
+  {% endif %}
+</article>

@@ -1,0 +1,10 @@
+.rounded {
+  --roundedSize: #{map-get($roundedSizes, none)};
+  border-radius: var(--roundedSize);
+
+  @each $abbr, $size in $roundedSizes {
+    &--#{$abbr} {
+      --roundedSize : #{rem($size)};
+    }
+  }
+}

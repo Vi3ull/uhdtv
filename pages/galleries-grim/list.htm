@@ -1,0 +1,29 @@
+title = "Список новостей"
+url = "/galleries-grim"
+layout = "default"
+meta_title = "Фотогалерея практических занятий по курсу грима | школа грима"
+meta_description = "Последняя информация из жизни учебного центра кино и телевидения UHD"
+==
+<?php
+
+function onStart() {
+        $this[ 'blogs' ] = \Maxon\Uhd\Models\Blog::IsPublished()->
+        whereHas('specs', function ($q)
+        {$q->whereIn( 'id', [12] );})
+        //->whereHas('images')
+        ->where('galsetting', '=', '1')
+        ->orderBy('published_at', 'desc')->paginate(20);	
+		$this->page->meta_keywords	= "";
+		$this->page->name	= "Фотогалерея практических занятий по курсу мастерство гримера";        	
+    }
+?>
+==
+
+<div class="video-list">
+    {% for blog in blogs %}
+        {% partial 'list/galblogs' item=blog catalog='blogs' %}
+    {% endfor %}
+
+</div>
+<div class="clear"></div>
+{% partial 'pagination' items=blogs %}

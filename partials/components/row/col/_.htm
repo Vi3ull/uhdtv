@@ -1,0 +1,3 @@
+<div class="row__col {{ col.width | join(' ') }} {{ col.style_settings | join(' ') }}"> 
+  {% partial 'components/' ~ component._group ~ '/_' data=component.content componentId=componentId %}
+</div>

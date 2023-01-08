@@ -1,0 +1,129 @@
+title = "Медиа ресурсы учебного центра"
+url = "/media-uhd-school/:mediacategory/:slug"
+layout = "default"
+meta_title = "Медиа ресурсы учебного центра"
+is_hidden = 0
+==
+<?php
+function onStart() {
+		$slug = str_replace('.html', '', $this->param('slug'));
+		$media	= \Maxon\Uhd\Models\Media::where( 'slug', $slug )->with([
+			'specs',
+			'specs.medias' =>function($q){
+			$q->isPublished()->distinct()->groupBy('id')->inRandomOrder()->limit(6);}
+		])->first();
+
+		$mediacategory	= \Maxon\Uhd\Models\Mediacategory::all();
+		$this[ 'mediacategory' ]			= $mediacategory;
+
+//dump($media->toArray());
+		if ( !$media ) {
+			$this->setStatusCode( 404 );
+			return $this->controller->run( '404' );
+		}
+		$this->page->meta_description	= $media->meta_description;
+		$this->page->meta_keywords	= $media->meta_keywords;
+		$this->page->name	= $media->name;
+		$this->page->image	= $media->image;
+		$this[ 'media' ]			= $media;
+
+	}
+?>
+==
+<div class="navi">
+<a href="/">Главная страница</a> &nbsp;
+{% for category in mediacategory %}
+{% if category.id == media.mediacategory_id %}
+{% if category.parent.slug %}
+»&nbsp;<a href="{{ 'media/item' | page({slug : category.parent.slug}) }}/">{{category.parent.name}}</a>
+»&nbsp;<a href="{{ 'media/item' | page({slug : category.slug}) }}/">{{category.name}}/</a>
+{% else %}
+»&nbsp;<a href="{{ 'media/item' | page({slug : category.slug}) }}/">{{category.name}}/</a>
+{% endif %}
+{% endif %}
+{% endfor %}
+</div>
+
+<div class="video-detail">
+<div class="video-detail-left">
+
+{% if media.image == "[]" %}
+{% else %}
+{% if media.video %}
+{% else %}
+					<div align="center">
+						<div class="imgm"><img width="400" src="{{media.image.getThumb( 400, 'auto' ) }}"></div>
+					</div>
+{% endif %}
+{% endif %}
+
+{% if media.images == "[]" %}
+{% else %}
+{% if media.images.count == "1" %}
+
+{% for image in media.images %}
+<div align="center"><img alt="{{image.name}}" src="{{image.getThumb( 300, 'auto' ) }}" data-image="{{image.path}}" data-description="{{image.description}}"></div>
+{% endfor %}
+
+{% else %}
+{% partial 'galleries' gallery=media type="tiles" %}<br />
+{% endif %}
+{% endif %}
+
+{% if media.files == "[]"%}
+{% else %}
+<script src="{{ 'assets/js/player/playerjs.js?ver=5.2'|theme }}" type="text/javascript"></script>
+<div id="player" style="height:300px;"></div>
+<script>
+  var player = new Playerjs({
+   id:"player",
+   file:[{% for file in media.files %}{"title":"{{file.file_name}}","file":"{{file.path}}"}{% if loop.last %}{% else %}, {% endif %}{% endfor %}]
+});
+</script>
+{% endif %}
+
+{% if item.image %}<img src="{{item.image.getThumb( 400, 'auto' ) }}" title="{{ item.name }}" alt="{{ item.name }}" width="400px">{% else %}<img src="{{item.mediacategory.image.getThumb( 400, 'auto' ) }}" title="{{ item.name }}" alt="{{ item.name }}" width="400px">{% endif %}
+
+{% if media.video %}<div class="videoWrapper">{{ media.video|raw }}</div>{% endif %}
+
+{{ media.content|raw }}
+
+<div class="clear"></div>
+  <br>
+<div class="nach green">
+<p align="center"><strong>Поделиться в социальных сетях:</strong></p>
+<script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+<script src="//yastatic.net/share2/share.js"></script>
+<div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,gplus,twitter,whatsapp,telegram" align="center"></div>
+<br>
+</div>
+
+</div>
+</div>
+
+<div class="video-detail-right">
+
+	<div class="video-list">
+		{% for spec in media.specs %}
+			{% for media in spec.medias %}
+				{% partial 'list/media' item=media catalog="media" %}
+			{% endfor %}
+		{% endfor %}
+	</div>
+	<div class="clear"></div>
+{% for cat in mediacategory %}
+{%if cat.id == media.category_id %}
+<div class="videobutton" style="margin-left:20px;"><a href="/media-uhd-schools/{{cat.slug}}/">Другие видео</a></div>
+{% endif %}
+{% endfor %}
+	<br>
+</div>
+
+<div class="clear"></div>
+
+
+<div class="prof bg01">
+{% for spec in media.specs %}
+     {% partial 'list/specs' spec=spec %}
+    {% endfor %}
+</div>

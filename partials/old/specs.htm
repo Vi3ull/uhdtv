@@ -1,0 +1,124 @@
+   <div class="item-list">  
+<div class="list-left">  
+   <div class="inn">
+  <div class="images-spec">
+  {% if spec.kurs_type == "on" %}<div class="message">Доступно онлайн обучение</div>{% endif %}
+    {% if spec.specs.count() > 1 %}
+        <a rel="canonical" href="{{ 'edus/item' | page({ slug : spec.slug }) }}/">
+    {%else%}        
+        <a rel="canonical" href="{{ 'specs/item' | page({ slug : spec.slug }) }}{{this.theme.suffix}}">
+    {% endif %}
+        <img src="{{spec.image.getThumb( 400, 250, {'mode':'crop'}) }}" title="{{ spec.name }}" alt="{{ spec.name }}" width="400px">
+        </a>
+        {% if spec.kurs_srok %}
+        <div class="text">             
+      <div class="left">Срок обучения</div>
+      <div class="right size110">{% for srok in spec.kurs_srok %}{{srok.number}}{% endfor %} мес</div>
+    </div>
+    {% endif %}
+      </div>
+  
+    </div>
+</div>
+    
+<div class="list-right ">
+{% if spec.specs.count() > 1 %}
+<div class="zh1"><a rel="canonical" href="{{ 'edus/item' | page({ slug : spec.slug }) }}/">{{ spec.name }}</a> <span class="kurs-green show">Группа курсов</span></div>
+
+<div class="bg01" style="padding:10px;">
+<table class="kratko" cellspacing="0">
+{% for spec2 in spec.specs %}  
+  <tr>
+    <td width="70px"><img src="{{spec2.image.getThumb( 60, 'auto' ) }}" title="{{ spec2.name }}" alt="{{ spec2.name }}" width="60px"></td>
+    <td width="90px" class="show">
+    
+    <span class="{% if spec2.category.slug == "intensiv" %}srok-green{% else %}srok{% endif %}"><strong>{% for srok in spec2.kurs_srok %}{{srok.number}}{% endfor %} мес</strong></span>
+    
+    </td>
+    <td width="120px" class="show">
+      {% if spec2.category.slug == "intensiv" %}<span class="srok-green">{{ spec2.category.name }}</span> {% else %} <span class="srok">{{ spec2.category.name }}</span>{% endif %}
+    </td>    
+    <td class="td-3"><a rel="canonical" href="{{ 'specs/item' | page({ slug : spec2.slug }) }}{{this.theme.suffix}}" >{{spec2.name}}</a></td>
+  </tr>
+  <tr>
+          <td colspan="4" class="border-bottom"></td>
+  </tr>
+          <tr>
+          <td colspan="4" class="border-top"></td>
+        </tr>
+{% endfor %}
+        </table>
+</div>
+<div class="clear"></div>
+
+
+  
+{% else %}
+<div class="zh1"><a rel="canonical" href="{{ 'specs/item' | page({ slug : spec.slug }) }}{{this.theme.suffix}}">{{ spec.name }}</a> 
+ {% if spec.category.slug == "intensiv" %}
+<span class="kurs-green show">{{spec.category.name}}</span></div>
+{% else %}
+<span class="kurs show">{{spec.category.name}}</span></div>
+{% endif %}
+
+{% if spec.kurs_time %}
+
+      <table class="kratko show" cellspacing="0">
+  <tbody><tr>
+    <td class="left">Время занятий</td>
+    <td class="right">
+      {% for time in spec.kurs_time %}      
+      {% if time.type == "utro" %}<div><span class="texsize110">Утро</span> <span class="texcolor-1 texbold">{{ time.time }}</span></div>{% endif %}
+      {% if time.type == "den" %}<div><span class="texsize110">День</span> <span class="texcolor-1 texbold">{{ time.time }}</span></div>{% endif %}
+      {% if time.type == "vecher" %}<div><span class="texsize110">Вечер</span> <span class="texcolor-1 texbold">{{ time.time }}</span></div>{% endif %}
+      {% endfor %}
+    </td>
+  </tr>
+    
+  <tr>
+          <td colspan="2" class="border-bottom"></td>
+        </tr>
+          <tr>
+          <td colspan="2" class="border-top"></td>
+        </tr>
+    
+    <tr>
+    <td class="left">Занятий в неделю</td>
+    <td class="right">
+      {% for dayzan in spec.kurs_dayzan %}
+				{% if dayzan.do %}
+        <span class="texsize110">от {{ dayzan.ot }} до {{ dayzan.do }}</span>
+					{% else %}
+					<span class="texsize110">{{ dayzan.ot }}</span>
+				{% endif %}
+			{% endfor %}          
+    </td>
+  </tr>  
+    
+    <tr>
+          <td colspan="2" class="border-bottom"></td>
+        </tr>
+          <tr>
+          <td colspan="2" class="border-top"></td>
+        </tr>
+    
+        <tr>
+    <td class="left">Возраст слушателей</td>
+    <td class="right"><span class="texsize110">от 16 лет</span></td>
+  </tr>  
+    
+      </tbody>
+      </table>
+
+{% else %}
+
+<p>{{ spec.meta_description }}</p>
+<div class="clear"></div>
+
+{% endif %}
+
+{% endif %}
+
+      </div>
+
+</div>

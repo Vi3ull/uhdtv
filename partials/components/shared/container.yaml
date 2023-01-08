@@ -1,0 +1,7 @@
+fields:
+  container: 
+    label: Ширина секции
+    type: dropdown
+    options:
+        "container": "Ограниченная"
+        "container--none": "Во всю ширину"

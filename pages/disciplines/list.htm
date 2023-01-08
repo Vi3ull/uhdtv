@@ -1,0 +1,25 @@
+title = "Список дисциплин"
+url = "/predmet/"
+layout = "default"
+
+[viewBag]
+title_up = "Список дисциплин изучаемых на курсах"
+==
+<?php
+function onStart() {
+		$this[ 'disciplines' ]	= \Maxon\Uhd\Models\Discipline::IsPublished()->IsContent()->orderBy('name', 'asc')->paginate(20);		
+
+		$this->page->meta_title	= "Список дисциплин ★ изучаемых на курсах учебного центра UHD (ЮэйчДи)";
+		$this->page->meta_description	= "Список дисциплин изучаемых на курсах школы телевидения, кино, школы радио, звукорежиссуры, школы дубляжа, актёрского мастерства, фотошколы, школы грима";
+		$this->page->meta_keywords	= "";
+		$this->page->name	= "Список дисциплин ★ изучаемых на курсах учебного центра UHD (ЮэйчДи)";    
+	}
+?>
+==
+<div class="prof bg02">
+{% for discipline in disciplines %}
+     {% partial 'list/items' item=discipline catalog="disciplines" listspec="N" %}
+{% endfor %}
+</div>
+
+{% partial 'pagination' items=disciplines %}

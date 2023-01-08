@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import { resolve, basename } from 'path'
+import path from 'path'
 
 // Your JS/TS/CSS entrypoints.
 const input = {
@@ -12,7 +13,13 @@ const input = {
 const themeName = 'uhdtv'
 
 export default defineConfig({
+    resolve: {
+        alias: {
+            '@': resolve(__dirname, './src'),
+        },
+    },
     // Included assets will use this path as the base URL.
+    // base: `/themes/${themeName}/assets/build/`,
     base: `/themes/${themeName}/assets/build/`,
     build: {
         rollupOptions: { input },

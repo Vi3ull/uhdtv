@@ -1,0 +1,195 @@
+title = "Новость"
+url = "/blog/:slug"
+layout = "default"
+is_hidden = 0
+==
+<?php
+function onStart() {		
+		$slug =  $this->param('slug');
+		$blog	= \Maxon\Uhd\Models\Blog::where( 'slug', $slug )->with('specs','galleries')->first();
+
+		if ( !$blog ) {
+			$this->setStatusCode( 404 );
+			return $this->controller->run( '404' );
+		}
+
+		$this->page->meta_title	= $blog->meta_title;
+		$this->page->meta_description	= $blog->meta_description;
+		$this->page->meta_keywords	= $blog->meta_keywords;
+		$this->page->name	= "Из жизни учебного центра. Блог";
+		$this->page->image	= $blog->image;
+		$this[ 'blog' ]	= $blog;		
+		
+		$this->page['title'] = $blog->name;
+
+		$this['breadcrumbs'] =  [
+			[
+				'title' => 'Список новостей',
+				'url' => "blog",
+				'isActive' => false,
+			],
+			[
+				'title' => $this[ 'blog' ]->name,
+				'url' => $this[ 'blog' ]->slug,
+				'isActive' => true,
+			],
+		];
+
+	}
+?>
+==
+<section class="row gap gap--row--sm gap--col--md container v-gap v-gap--top--md">
+	<div class="row__col row__col--sm--12 typography">
+		<h1>{{ blog.name }}</h1>
+	</div>
+
+	{% if blog.video %}
+		<div class="row__col row__col--sm--12">
+			{% if blog.videoslider %}
+				{% partial 'components/carousel/_' 
+					data={
+						slides_count: "carousel--slides-sm--1 carousel--slides-md--1 carousel--slides-lg--1",
+						has_thumbs: true,
+						has_navigation: true,
+						has_pagination: true,
+					} 
+					body 
+				%}	
+					{% for slide in blog.videoslider %}
+						{% partial 'components/carousel/slide/_' body %}
+							{% partial 'components/video/_' 
+								data={
+									video_url: slide.videonext,
+									video_image: slide.videimage,
+								}	
+							%}	
+						{% endpartial %}
+					{% endfor %}
+				{% endpartial %}
+			{% else %}			
+				{% partial 'components/video/_' video_url=blog.video | raw  %}	
+			{% endif %}
+		</div>
+		{% else %}
+		<div class="row__col row__col--sm--12">
+			{% partial 
+				'components/banner/_' 
+				imagePath=blog.image.getThumb( 720, 'auto' )
+				imageWidth="100%"	
+				imageHeight="auto"
+				imageAlt="blog.name"
+			%}
+		</div>
+	{% endif %}
+
+	{# if blog.images | length > 0 %}
+		<div class="row__col row__col--sm--12">
+			{% partial 'components/gallery/_' gallery=blog.images %}
+		</div>
+	{% endif #}
+
+	{# if blog.medias | length > 0 %}
+		<div class="row__col row__col--sm--12">
+			{% partial 'old/slider' item=blog.medias %}
+		</div>
+		{% else %}
+		<div class="row__col row__col--sm--12">
+			{% for media in blog.medias %}
+				{% if media.video | length > 0 %}
+				{% else %}
+					{{ media.video | raw }}
+				{% endif %}
+			{% endfor %}
+		</div>
+	{% endif #}
+
+	{# if blog.works | length > 0 %}
+	<div class="row__col row__col--sm--12">
+		{% for work in blog.works %}
+			{% if work.images | length > 0 %}
+				{% partial 'components/gallery/_' gallery=work.images %}
+			{% endif %}
+		{% endfor %}
+	</div>
+	{% endif #}
+
+	{# if blog.works | length > 0 %}
+		<div class="row__col row__col--sm--12">
+			{% for work in blog.works %}
+				{% if work.video %}
+					{% partial 'components/video/_' video_url=work.video %}	
+				{% endif %}
+			{% endfor %}
+		</div>
+	{% endif #} 
+
+	{% if blog.galleries | length > 0 %}
+		<div class="row__col row__col--sm--12">
+			{% for gallery in blog.galleries %}
+				{% if gallery.images == "[]" %}
+				{% else %}
+					{% partial 'components/gallery/_' gallery=gallery %}
+				{% endif %}
+			{% endfor %}
+		</div>
+	{% endif %}
+
+	{# if blog.content %}
+		<div class="row__col row__col--sm--12">
+			<div class="typography">
+				{{ blog.content|raw }}
+				{%if blog.embersoc %}
+					{{ blog.embersoc|raw }}
+				{% endif %}
+			</div>
+		</div>
+	{% endif #}
+
+	{% if blog.galleries | length > 0 %}
+	<div class="row__col row__col--sm--12">
+			{# for lector in blog.lectors %}
+				{% partial 'list/lectors' item=lector catalog="lectors" %}
+			{% endfor #}
+	</div>
+	{% endif %}
+
+	{% if blog.specs | length > 0 %}
+	<div class="row__col row__col--sm--12">
+		<div class="table typography rounded rounded--md shadow shadow--sm">
+			<h2 class="table__title">Событие относится к специальност{{ blog.specs | length > 1 ? 'ям' : 'и' }}:</h2>
+			<div class="table__inner">
+				<table cellspacing="0">
+					{% for spec in blog.specs %}
+					<tr>
+						<td width="70px">
+							<img src="{{spec.image.getThumb( 60, 'auto' ) }}" title="{{ spec.name }}" alt="{{ spec.name }}" width="60px">
+						</td>
+						<td width="90px">
+							<span class="badge rounded rounded--sm">
+								{% for srok in spec.kurs_srok %}{{srok.number}}{% endfor %} мес
+							</span>
+						</td>
+						<td width="120px">
+							<span class="badge rounded rounded--sm">{{ spec.category.name }}</span>
+						</td>
+						<td>
+							<a rel="canonical" href="{{ 'specs/item' | page({ slug : spec.slug }) }}">{{spec.name}}</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+
+	{% endif %}
+	{# if blog.specs.count < "3" %} 
+		<div>
+			{% for spec in blog.specs %}
+				{% partial 'old/specs' spec=spec %}
+			{% endfor %}
+		</div>
+	{% else %}
+
+	{% endif #}
+</section>

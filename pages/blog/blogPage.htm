@@ -1,0 +1,31 @@
+title = "Список новостей"
+url = "/blog"
+layout = "default"
+meta_title = "Список новостей из учебного центра UHD (ЮэйчДи)"
+meta_description = "Последняя информация из жизни учебного центра кино и телевидения UHD"
+==
+<?php
+function onStart() {
+    $this['breadcrumbs'] =  [
+      [
+        'title' => 'Список новостей',
+        'url' => "#",
+        'isActive' => true,
+      ],
+    ];
+
+    $this[ 'posts' ] = \Maxon\Uhd\Models\Blog::IsPublished()->orderBy('published_at', 'desc')->paginate(20);
+    $this->page->meta_keywords	= "новости школы телевидения, новости учебного центра";
+    $this->page->name	= "Из жизни учебного центра. Блог";
+}
+?>
+==
+<ul class="container v-gap v-gap--top--md">
+    {% for post in posts %}
+        <li>
+            {% partial 'components/post/_' post=post url="blog"%}
+        </li>
+    {% endfor %}
+</ul>
+
+{% partial 'common/pagination' results=posts  %}

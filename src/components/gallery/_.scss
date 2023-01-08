@@ -1,0 +1,125 @@
+.gallery {
+  --columnsCount: 1;
+  --rowGapSize: #{rem(16)};
+  --colGapSize: #{rem(16)};
+
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(var(--columnsCount), 1fr);
+  grid-auto-flow: dense;
+  row-gap: var(--rowGapSize);
+  column-gap: var(--colGapSize);
+
+  @media screen and (min-width: map-get($screens, sm)) {
+    --columnsCount: 2;
+  }
+
+  @media screen and (min-width: map-get($screens, md)) {
+    --columnsCount: 3;
+  }
+
+  @media screen and (min-width: map-get($screens, lg)) {
+    --columnsCount: 4;
+  }
+
+  // .gallery--cols
+
+  @media screen and (min-width: map-get($screens, xl)) {
+    @for $i from 1 to 5 {
+      &--cols--#{$i} {
+        --columnsCount: #{$i};
+      }
+    } 
+  }
+
+  // .gallery__item
+
+  &__item {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    box-shadow: var(--boxShadow);
+    border-radius: var(--roundedSize);
+  }
+
+  // .gallery__item-figure
+
+  &__item-figure {
+    // display: flex;
+    // flex-direction: column;
+  }
+
+  // .gallery__item-picture
+
+  &__item-picture {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+
+  // .gallery__item-img
+
+  &__item-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  // .gallery__item-caption
+
+  &__item-title {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    padding: #{rem(5)} #{rem(10)};
+    background-color: rgb(var(--clrTheme) / 0.4);
+    font-size: rem(18);
+    font-weight: 600;
+    color: rgb(var(--white) / 1);
+    opacity: 0;
+  }
+
+  // .gallery__item-link
+
+  &__item-link {
+    color: rgb(var(--clrText) / 1);
+
+    &:hover {
+      color: rgb(var(--clrHover) / 1);
+    }
+
+    &:focus {
+      @extend %focus;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      z-index: 1;
+      cursor: pointer;
+    }
+  }
+
+  // .gallery__item-icon 
+
+  &__item-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: rem(5);
+    width: rem(24);
+    height: rem(24);
+    z-index: 1;
+    stroke: rgb(var(--clrTheme) / 1);
+    stroke-width: 2;
+    fill: none;
+    box-sizing: content-box;
+    opacity: 0;
+  }
+}

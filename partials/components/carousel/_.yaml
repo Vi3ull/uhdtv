@@ -1,0 +1,127 @@
+fields:
+  style_settings:
+    label: Настройки компонента "Карусель"
+    type: nestedform
+    showPanel: false
+    form:
+      fields:
+        container_type:   
+          type: nestedform
+          showPanel: false
+          form: ~/themes/uhdtv/partials/components/shared/container.yaml
+          span: row
+          cssClass: col-md-2 px-0
+
+        align_type: 
+          type: nestedform
+          showPanel: false
+          form: ~/themes/uhdtv/partials/components/shared/align.yaml
+          span: row
+          cssClass: col-md-2 px-0
+
+        gap_type: 
+          type: nestedform
+          showPanel: false
+          form: ~/themes/uhdtv/partials/components/shared/gap.yaml
+          span: row
+          cssClass: col-md-4 px-0
+
+        v_gap_type: 
+          type: nestedform
+          showPanel: false
+          form: ~/themes/uhdtv/partials/components/shared/v-gap.yaml
+          span: row
+          cssClass: col-md-4 px-0
+
+        slides_count:
+          label: Количество слайдов
+          type: nestedform
+          showPanel: false
+          span: row
+          cssClass: col-md-12 px-0
+          form: 
+            fields:
+              sm:
+                label: На моб. устройствах
+                type: dropdown
+                options:
+                  carousel--slides-sm--1: "1"
+                  carousel--slides-sm--2: "2"
+                  carousel--slides-sm--3: "3"
+                  carousel--slides-sm--4: "4"
+                  carousel--slides-sm--5: "5"
+                  carousel--slides-sm--6: "6"
+                  carousel--slides-sm--7: "7"
+                span: row
+                cssClass: col-md-3
+              
+              md:
+                label: На планшетах
+                type: dropdown
+                options:
+                  carousel--slides-md--1: "1"
+                  carousel--slides-md--2: "2"
+                  carousel--slides-md--3: "3"
+                  carousel--slides-md--4: "4"
+                  carousel--slides-md--5: "5"
+                  carousel--slides-md--6: "6"
+                  carousel--slides-md--7: "7"
+                span: row
+                cssClass: col-md-3
+              
+              lg: 
+                label: На мониторах ПК(> 1024px)
+                type: dropdown
+                options:
+                  carousel--slides-lg--1: "1"
+                  carousel--slides-lg--2: "2"
+                  carousel--slides-lg--3: "3"
+                  carousel--slides-lg--4: "4"
+                  carousel--slides-lg--5: "5"
+                  carousel--slides-lg--6: "6"
+                  carousel--slides-lg--7: "7"
+                span: row
+                cssClass: col-md-3
+
+              2xl: 
+                label: На мониторах ПК(> 1536px)
+                type: dropdown
+                options:
+                  carousel--slides-2xl--1: "1"
+                  carousel--slides-2xl--2: "2"
+                  carousel--slides-2xl--3: "3"
+                  carousel--slides-2xl--4: "4"
+                  carousel--slides-2xl--5: "5"
+                  carousel--slides-2xl--6: "6"
+                  carousel--slides-2xl--7: "7"
+                span: row
+                cssClass: col-md-3
+
+        # has_thumbs:
+        #   label: Отображать миниатюры
+        #   type: switch
+
+        has_navigation:
+          label: Отображать навигацию
+          type: switch
+
+        has_pagination:
+          label: Отображать пагинацию
+          type: switch
+
+        carousel_type:
+          label: Тип карусели
+          type: dropdown
+          options:
+            carousel--type--horizontal: "Горизонтальная"
+            carousel--type--vertical: "Вертикальная"
+
+  _ruler1:
+    type: ruler
+
+  slides:
+    label: Слайды
+    prompt: Добавить слайд
+    type: repeater
+    displayMode: builder
+    form: ~/themes/uhdtv/partials/components/carousel/slide/_.yaml

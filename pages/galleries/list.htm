@@ -1,0 +1,37 @@
+title = "Список gal"
+url = "/galleries"
+layout = "default"
+==
+<?php
+
+function onStart() {
+		$this[ 'galleries' ] = \Maxon\Uhd\Models\Gallery::IsPublished()->orderBy('updated_at', 'ASC')->paginate(20);
+	}
+?>
+==
+<h1>Список галерей</h1>
+
+<ul>
+{% for gallery in galleries %}
+<li>{% if gallery.specs[0].slug == '' %}
+
+    <a href="{{ 'galleries/item' | page({spec: 'all', slug : gallery.slug }) }}">{{ gallery.name }} ({{gallery.published_at|rudate("%e %BP %Y")}})
+    ({{ gallery.date_publish|date('d F Y') }})</a>
+    
+    {% else %}
+
+    <a href="{{ 'galleries/item' | page({spec: gallery.specs[0].slug, slug : gallery.slug }) }}">{{ gallery.name }} ({{gallery.published_at|rudate("%e %BP %Y")}})
+        ({{ blog.date_publish|date('d F Y') }})</a>
+    
+    {% endif %}
+
+{% for spec in gallery.specs %}
+	<a href="{{ 'specs/item' | page({ slug : spec.slug }) }}">{{ spec.name }}</a>
+{% endfor %}
+
+</li>
+{% endfor %}
+</ul>
+
+{% partial 'pagination' items=galleries  %}
+

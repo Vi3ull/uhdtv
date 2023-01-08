@@ -1,0 +1,20 @@
+title = "Список специальностей"
+url = "/kurs/"
+layout = "default"
+is_hidden = 0
+==
+<?php
+function onStart() {
+		$this[ 'edus' ]	= \Maxon\Uhd\Models\Edu::get();
+	}
+?>
+==
+<h1>Список специальностей</h1>
+
+<div class="prof bg01">
+{% for spec in edus %}
+     {% partial 'list/specs' spec=spec %}
+{% endfor %}
+</div>
+
+

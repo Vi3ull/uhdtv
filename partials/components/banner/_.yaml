@@ -1,10 +1,21 @@
 fields:
+  style_settings:
+    type: nestedform
+    showPanel: false
+    form: ~/themes/uhdtv/partials/components/shared/_.yaml
+    span: row
+    cssClass: col-md-12 p-0
+
+  _ruler1:
+    label: Настройки компонента "Баннер"
+    type: ruler
+
   image: 
     label: Изображение
-    type: mediafinder
-    required: true
-    span: full
-    mode: image
+    type: nestedform
+    form: ~/themes/uhdtv/partials/components/shared/image.yaml
+    showPanel: false
+
   description:
     label: Описание
     type: richeditor

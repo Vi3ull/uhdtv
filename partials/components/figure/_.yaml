@@ -1,0 +1,45 @@
+fields:
+  style_settings:
+    label: Настройки компонента "Карусель"
+    type: nestedform
+    showPanel: false
+    form:
+      fields:
+        hide_caption:
+          label: Показать/Скрыть описание
+          type: dropdown
+          options:
+            'figure--show--caption': 'Показать описание'
+            'figure--hide--caption': 'Скрыть описание'
+          span: row
+          cssClass: col-md-12
+
+        ratio_type:
+          label: Соотношение сторон
+          type: dropdown
+          options:
+            'figure--ratio--square': '1:1 (Квадрат)'
+            'figure--ratio--video': '16:9 (Прямоугольник)'
+          span: row
+          cssClass: col-md-12
+
+        rounded_type:
+          type: nestedform
+          showPanel: false
+          form: ~/themes/uhdtv/partials/components/shared/rounded.yaml
+          span: row
+          cssClass: col-md-6 p-0
+
+        shadow_type:
+          type: nestedform
+          showPanel: false
+          form: ~/themes/uhdtv/partials/components/shared/shadow.yaml
+          span: row
+          cssClass: col-md-6 p-0
+  
+  image: 
+    label: Изображение
+    type: nestedform
+    form: ~/themes/uhdtv/partials/components/shared/image.yaml
+    showPanel: false
+

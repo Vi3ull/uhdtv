@@ -1,0 +1,16 @@
+<figure class="figure {% for style in style_settings | default(data.style_settings) %} {{ style | join(' ') }}{% endfor %}">
+  <a class="figure__link" data-fslightbox="figure-{{ componentId | default(random()) }}" href="{{ imagePath | default(data.image | media) }}" title="{{ imageCaption | default(data.image['caption']) }}"></a>
+  {% partial 'common/icon' class="figure__icon" icon="zoom" %}
+  <picture class="figure__picture">
+    <img 
+      class="figure__img"
+      src="{{ imagePath | default(data.image['path'] | media) }}" 
+      width="{{ imageWidth | default(data.image['width']) }}"
+      height="{{ imageHeight | default(data.image['height']) }}"
+      alt="{{ imageCaption | default(data.image['caption']) }}"
+    >
+  </picture>
+  <figcaption class="figure__caption">
+    {{ imageCaption | default(data.image['caption']) }}
+  </figcaption>    
+</figure>

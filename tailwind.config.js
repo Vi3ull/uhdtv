@@ -19,6 +19,27 @@ module.exports = {
     'partials/**/*.{htm,js}',
     'src/**/*.js',
   ],
+  // safelist: [
+  //   'container',
+  //   'mt-sm',
+  //   'mt-md',
+  //   'mt-lg',
+  //   'mb-sm',
+  //   'mb-md',
+  //   'mb-lg',
+  //   'col-span-1',
+  //   'col-span-2',
+  //   'col-span-3',
+  //   'col-span-4',
+  //   'col-span-5',
+  //   'col-span-6',
+  //   'col-span-7',
+  //   'col-span-8',
+  //   'col-span-9',
+  //   'col-span-10',
+  //   'col-span-11',
+  //   'col-span-12',
+  // ],
   theme: {
     screens: {
       'xs': '480px',
@@ -32,6 +53,9 @@ module.exports = {
       spacing: {
         'container': 'var(--padding-x)',
         'video': '56.25%',
+        'sm': '24px',
+        'md': '40px',
+        'lg': '72px'
       },
       colors: {
         'clr-header': 'rgb(var(--clrHeader) / 1)',
@@ -40,13 +64,13 @@ module.exports = {
         'clr-heading': 'rgb(var(--clrHeading) / 1)',
         'clr-text': 'rgb(var(--clrText) / 1)',
         'clr-link': 'rgb(var(--clrLink) / 1)',
-        'clr-cta': 'rgb(var(--clrCta) / 1)',
+        'clr-cta': 'rgb(var(--clrTheme) / 1)',
         'clr-selection': 'rgb(var(--clrSelection) / 1)',
         'clr-hover': 'rgb(var(--clrHover) / 1)',
         'clr-overlay': 'rgb(var(--clrOverlay) / 1)',
       },
       boxShadow: {
-        'inside': 'inset 0px 0px 50px 0px rgba(0,0,0,0);',
+        'inside': 'inset 0px 0px 50px 0px rgb(0,0,0,0);',
         'autofill': '0 0 0px 1000px #ffffff inset',
       },
       // typography: theme => ({
@@ -150,7 +174,7 @@ module.exports = {
       //               width: '45px',
       //               transform: 'skewX(-45deg)',
       //               left: '-150%',
-      //               background: 'linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.4))',
+      //               background: 'linear-gradient(90deg, rgb(255, 255, 255, 0.1), rgb(255, 255, 255, 0.4))',
       //               animation: theme('animation.flare'),
       //             },
       //           },

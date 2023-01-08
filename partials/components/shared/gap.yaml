@@ -1,0 +1,23 @@
+fields:
+  row_gap:
+    label: Отступ между рядами
+    type: dropdown
+    span: left
+    options:
+      "gap--row--none": "Отсутствует"
+      "gap--row--default": "По умолчанию"
+      "gap--row--sm": "Маленький"
+      "gap--row--md": "Средний" 
+      "gap--row--lg": "Большой" 
+    default: gap--row--default
+  col_gap:
+    label: Отступ между колонками
+    type: dropdown
+    span: right
+    options:
+      "gap--col--none": "Отсутствует"
+      "gap--col--default": "По умолчанию"
+      "gap--col--sm": "Маленький"
+      "gap--col--md": "Средний" 
+      "gap--col--lg": "Большой" 
+    default: gap--col--default

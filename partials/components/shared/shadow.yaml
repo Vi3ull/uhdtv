@@ -1,0 +1,10 @@
+fields:
+  shadow:
+    label: Тень
+    type: dropdown
+    options:
+      "shadow shadow--none": Отсутствует
+      "shadow shadow--sm": Маленькая 
+      "shadow shadow--md": Средняя
+      "shadow shadow--lg": Большая
+    default: shadow--none

@@ -1,0 +1,28 @@
+fields:
+  path: 
+    label: Изображение
+    type: mediafinder
+    mode: image
+    required: true
+    span: row
+    cssClass: col-md-12
+
+  width: 
+    label: Ширина изображения
+    span: row
+    cssClass: col-md-6
+    default: "100%"
+    comment: "Допустимые меры измерения: px, rem, em, %, auto"
+  
+  height: 
+    label: Высота изображения
+    span: row
+    cssClass: col-md-6
+    default: "auto"
+    comment: "Допустимые меры измерения: px, rem, em, %m auto"
+
+  caption: 
+    label: Подпись
+    span: row
+    cssClass: col-md-12
+    comment: "Добавляет текстовое описание содержимого картинки"

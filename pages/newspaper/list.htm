@@ -1,0 +1,29 @@
+title = "Документы учебного центра"
+url = "/newspaper/"
+layout = "default"
+==
+<?php
+
+function onStart() {
+        $this[ 'gazetas' ] = \Maxon\Uhd\Models\Newspaper::IsPublished()->orderBy('published_at', 'desc')->paginate(12);
+
+        $this->page->meta_title	= "Газета учебного центра";
+        $this->page->name	= "Газета учебного центра";
+	}
+?>
+==
+
+
+<div class="navi">
+<a href="/">Главная страница</a> &nbsp;»&nbsp;<a href="/pg/"></a>
+</div>
+
+{% for item in gazetas %}
+<div class="left">
+<p><a href="{{ 'newspaper/item' | page({ slug : item.slug }) }}{{this.theme.suffix}}">{{ item.name }}</a></p>
+<a href="{{ 'newspaper/item' | page({ slug : item.slug }) }}{{this.theme.suffix}}"><img src="{{item.image.path }}" title="{{ item.name }}" alt="{{ item.name }}" width="300px"></a>
+</div>
+{% endfor %}
+
+
+{% partial 'pagination' items=gazetas  %}

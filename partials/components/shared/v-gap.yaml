@@ -1,0 +1,28 @@
+fields:
+  v_gap_top: 
+    label: Отступ сверху
+    type: dropdown
+    options:
+      "v-gap--top--none": "Отсутствует"
+      "v-gap--top--sm": "Маленький"
+      "v-gap--top--md": "Средний" 
+      "v-gap--top--lg": "Большой" 
+
+      "v-gap--top--sm v-gap--top--negative": "Отрицательный Маленький"
+      "v-gap--top--md v-gap--top--negative": "Отрицательный Средний" 
+      "v-gap--top--lg v-gap--top--negative": "Отрицательный Большой" 
+    span: left
+
+  v_gap_bottom: 
+    label: Отступ снизу
+    type: dropdown
+    options:
+      "v-gap--bottom--none": "Отсутствует"
+      "v-gap--bottom--sm": "Маленький"
+      "v-gap--bottom--md": "Средний" 
+      "v-gap--bottom--lg": "Большой" 
+
+      "v-gap--bottom--sm v-gap--bottom--negative": "Отрицательный Маленький"
+      "v-gap--bottom--md v-gap--bottom--negative": "Отрицательный Средний" 
+      "v-gap--bottom--lg v-gap--bottom--negative": "Отрицательный Большой" 
+    span: right

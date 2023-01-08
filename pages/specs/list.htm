@@ -1,0 +1,30 @@
+title = "Список специальностей"
+url = "/section/"
+layout = "default"
+
+[viewBag]
+title_up = "Основные курсы"
+==
+<?php
+function onStart() {
+		$this[ 'specs' ]	= \Maxon\Uhd\Models\Spec::IsPublished()->orderBy('sort_order', 'ASC')->paginate(100);
+
+		$this->page->meta_title	= "Список специальностей учебного центра UHD (ЮэйчДи)";
+		$this->page->meta_description	= "Список основных специальностей в мастерских учебного центра UHD (ЮэйчДи), телевидение и кино, школы радио, звукорежиссуры, школы дубляжа, актёрского мастерства, фотошколы, школы грима";
+		$this->page->meta_keywords	= "";
+		$this->page->name	= "Список основных специальностей учебного центра UHD (ЮэйчДи)";   
+	}
+?>
+==
+<div class="prof bg01">
+{% for spec in specs %}
+{% if spec.category.id =="1" %}
+
+{% if spec.id == "10" %}
+{% else %}
+     {% partial 'list/specs' spec=spec %}
+{% endif %}
+
+{% endif %}     
+{% endfor %}
+</div>

@@ -1,0 +1,13 @@
+.badge {
+  display: inline-block;
+  padding: rem(6) rem(10);
+  letter-spacing: 0;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  font-weight: 500;
+  background-color: rgb(var(--clrTheme) / 1);
+  color: rgb(var(--white) / 1);
+  border-radius: var(--roundedSize);
+  margin: 0;
+}

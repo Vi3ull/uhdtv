@@ -1,0 +1,60 @@
+$columnsCount: 12;
+
+$rowBreakpoints: (
+  sm: 360px, 
+  md: 768px, 
+  lg: 1024px, 
+  2xl: 1536px,
+) !default; 
+
+.row {
+  --rowGapSize: #{rem(16)};
+  --colGapSize: #{rem(16)};
+
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: var(--rowGapSize);
+  column-gap: var(--colGapSize);
+
+  // .row--start
+
+  &--start {
+    justify-content: flex-start;
+  }
+
+  // .row--center
+
+  &--center {
+    justify-content: center;
+  }
+
+  // .row--end
+
+  &--end {
+    justify-content: flex-end;
+  }
+
+  // .row--between
+
+  &--between {
+    justify-content: space-between;
+  }
+
+  &__col {
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    width: 100%;
+
+    @each $breakpointAbbr, $breakpointSize in $rowBreakpoints {
+      @media screen and (min-width: $breakpointSize) {
+
+        @for $i from 1 through $columnsCount {
+          &--#{$breakpointAbbr}--#{$i} {
+            width: calc(((100% * $i) / $columnsCount) - var(--colGapSize));
+          }
+        }
+      }
+    }
+  }
+}

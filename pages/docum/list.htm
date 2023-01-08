@@ -1,0 +1,22 @@
+title = "Документы учебного центра"
+url = "/docum/"
+layout = "default"
+==
+<?php
+
+function onStart() {
+		$this[ 'galleries' ] = \Maxon\Uhd\Models\Gallery::IsPublished()->where( 'id','=','30')->first();
+
+        $this->page->meta_title	= "Документы учебного центра";
+        $this->page->name	= "Документы учебного центра";
+	}
+?>
+==
+
+
+<div class="navi">
+<a href="/">Главная страница</a> &nbsp;»&nbsp;<a href="/pg/"></a>
+</div>
+
+{% partial 'galleries' gallery=galleries type="tiles" %}<br />
+

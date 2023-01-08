@@ -1,0 +1,57 @@
+title = "Дисциплина"
+url = "/predmet/:slug"
+layout = "default"
+
+[viewBag]
+title_up = "Дисциплины изучаемые на курсах"
+==
+<?php
+function onStart() {
+		$slug = str_replace('.html', '', $this->param('slug'));
+		$discipline	= \Maxon\Uhd\Models\Discipline::where( 'slug', $slug )->with('lectors')->first();
+
+		if ( !$discipline ) {
+			$this->setStatusCode( 404 );
+			return $this->controller->run( '404' );
+		}
+
+		$this->page->meta_title	= $discipline->meta_title;		
+		$this->page->meta_description	= $discipline->meta_description;
+		$this->page->meta_keywords	= $discipline->meta_keywords;
+		$this->page->name	= $discipline->name;
+		$this->page->image	= $discipline->image;		
+		
+		$this[ 'discipline' ]		= $discipline;	
+		
+	}
+?>
+==
+<div class="navi">
+<a href="/">Главная страница</a> &nbsp;»&nbsp;<a href="{{ 'disciplines/list' | page() }}/">{{viewBag.title_up }}</a>
+</div>
+
+
+<div class="line-doc">{{ discipline.name }}</div>
+<br>
+<div class="nach black">
+<div class="left border"><img src="{{ discipline.image.getThumb( 300, 'auto' ) }}" alt="" width="300"></div>
+{{ discipline.content|raw }}</div>
+
+<div class="line-spec">Преподаватели</div>
+<br>
+<div class="prof bg02">
+{% for lector in discipline.lectors %}
+     {% partial 'list/lectors' item=lector catalog="lectors" %}
+{% endfor %}
+<br>
+</div>
+
+{% if discipline.specs.count == "[]"%}
+{% else %}
+<div class="line-doc">Дисциплина изучается на курсах:</div>
+<div class="prof bg01">
+{% for spec in discipline.specs %}
+     {% partial 'list/specs' spec=spec %}
+{% endfor %}
+</div>
+{% endif %}

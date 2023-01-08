@@ -1,0 +1,11 @@
+fields:
+  rounded:
+    label: Закругление краёв
+    type: dropdown
+    options:
+      "rounded rounded--none": Отсутствует
+      "rounded rounded--sm": Маленькое 
+      "rounded rounded--md": Среднее
+      "rounded rounded--lg": Большое
+      "rounded rounded--full": Максимальное
+    default: rounded--none

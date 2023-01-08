@@ -1,0 +1,20 @@
+.gap {
+  --rowGapSize: #{map-get($gapSizes, default)};
+  --colGapSize: #{map-get($gapSizes, default)};
+
+  &--row {
+    @each $abbr, $size in $gapSizes {
+      &--#{$abbr} {
+        --rowGapSize: #{$size};
+      }
+    }
+  } 
+
+  &--col {
+    @each $abbr, $size in $gapSizes {
+      &--#{$abbr} {
+        --colGapSize: #{$size};
+      }
+    }
+  }
+}

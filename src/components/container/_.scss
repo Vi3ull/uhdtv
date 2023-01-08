@@ -1,0 +1,20 @@
+.container {
+  --containerGutter: #{rem(36)};
+  --containerPadding: var(--containerGutter);
+
+  max-width: 100%;
+  padding-left: var(--containerPadding);
+  padding-right: var(--containerPadding);
+
+  // .container--none
+
+  &--none {
+    --containerPadding: 0;
+  }
+
+  @each $breakpointAbbr, $breakpointSize in $screens {
+    @media screen and (min-width: $breakpointSize) {
+      --containerPadding: calc((100% - (#{$breakpointSize} - var(--containerGutter) * 2)) * .5);
+    }
+  }
+}

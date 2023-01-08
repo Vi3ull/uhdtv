@@ -1,0 +1,66 @@
+fields:
+  style_settings:
+    type: nestedform
+    showPanel: false
+    form:
+      fields:
+        container_type:   
+          type: nestedform
+          showPanel: false
+          form: ~/themes/uhdtv/partials/components/shared/container.yaml
+          span: row
+          cssClass: col-md-2 px-0
+
+        gap_type: 
+          type: nestedform
+          showPanel: false
+          form: ~/themes/uhdtv/partials/components/shared/gap.yaml
+          span: row
+          cssClass: col-md-4 px-0
+
+        v_gap_type: 
+          type: nestedform
+          showPanel: false
+          form: ~/themes/uhdtv/partials/components/shared/v-gap.yaml
+          span: row
+          cssClass: col-md-4 px-0
+
+        gallery_type:
+          label: Тип галлереи
+          type: dropdown
+          options:
+            default: По умолчанию
+            carousel: Карусель
+          default: default
+          span: row
+          cssClass: col-md-3
+
+        gallery_cols:
+          label: Количество колонок
+          type: dropdown
+          options:
+            'gallery--cols--1': "1 в ряд"
+            'gallery--cols--2': "2 в ряд"
+            'gallery--cols--3': "3 в ряд"
+            'gallery--cols--4': "4 в ряд"
+          default: 4
+          span: row
+          cssClass: col-md-3
+
+  _ruler1:
+    label: Настройки компонента "Галлерея"
+    type: ruler
+
+  gallery:
+    label: Список
+    prompt: Добавить элемент
+    type: repeater
+    form:
+      fields:
+        image: 
+          label: Изображение
+          type: mediafinder
+          mode: image
+
+        title:
+          label: Заголовок

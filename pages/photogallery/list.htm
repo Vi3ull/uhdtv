@@ -1,0 +1,26 @@
+title = "Список gal"
+url = "/photogalleries"
+layout = "default"
+==
+<?php
+
+function onStart() {
+		$this[ 'galleries' ] = \Maxon\Uhd\Models\Gallery::IsPublished()->
+        whereHas('specs', function ($q)
+        {$q->whereIn( 'id', [3] );})        
+        ->orderBy('updated_at', 'desc')->paginate(20);        
+	}
+?>
+==
+<h1>Список галерей</h1>
+
+<br>
+<div class="video-list">
+    {% for work in galleries %}	
+        {% partial 'list/gal' work=work catalog='photogallery' %}
+    {% endfor %}
+</div>
+
+<div class="clear"></div>
+
+{% partial 'pagination' items=galleries  %}
